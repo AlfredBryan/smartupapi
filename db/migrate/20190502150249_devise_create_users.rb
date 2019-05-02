@@ -23,6 +23,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.1]
 
       ## Authenticatable
       t.string :authentication_token, :string, limit: 30
+      t.string :status, default: 'student'
+      t.boolean :admin, default: false
 
 
       ## Confirmable

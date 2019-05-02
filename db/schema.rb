@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 20190502150249) do
     t.inet "last_sign_in_ip"
     t.string "authentication_token", limit: 30
     t.string "string", limit: 30
+    t.string "status", default: "student"
+    t.boolean "admin", default: false
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"

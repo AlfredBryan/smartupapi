@@ -1,6 +1,6 @@
 class Api::V1::ApplicationSerializer < ActiveModel::Serializer
   attributes :id, :created_at, :updated_at
-  attributes :errors, :error_messages
+  attributes :errors
 
   def cache_key(_options = {})
     object.cache_key
