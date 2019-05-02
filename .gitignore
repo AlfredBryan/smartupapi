@@ -27,7 +27,6 @@ db/import/*.csv
 coverage/
 .vagrant
 .idea/
-secrets.yml
 
 # Ignore Devtools
 devtools/
