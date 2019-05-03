@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190503145858) do
+ActiveRecord::Schema.define(version: 20190503154118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(version: 20190503145858) do
     t.boolean "active", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "creator_id"
+    t.index ["creator_id"], name: "index_courses_on_creator_id"
     t.index ["institution_id"], name: "index_courses_on_institution_id"
     t.index ["slug"], name: "index_courses_on_slug", unique: true
   end
@@ -139,13 +141,26 @@ ActiveRecord::Schema.define(version: 20190503145858) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "ward_requests", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "guardian_id"
+    t.boolean "approved", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_ward_requests_on_user_id"
+  end
+
   add_foreign_key "answer_options", "questions"
   add_foreign_key "answers", "answer_options"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
   add_foreign_key "assessments", "courses"
   add_foreign_key "courses", "institutions"
+  add_foreign_key "courses", "users", column: "creator_id"
+  add_foreign_key "institutions", "users", column: "owner_id"
   add_foreign_key "questions", "assessments", column: "assessments_id"
   add_foreign_key "questions", "topics"
   add_foreign_key "topics", "courses"
+  add_foreign_key "ward_requests", "users"
+  add_foreign_key "ward_requests", "users", column: "guardian_id"
 end
