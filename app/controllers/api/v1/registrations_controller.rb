@@ -8,9 +8,18 @@ class Api::V1::RegistrationsController < Api::V1::BaseController
     @user = User.new(sign_up_params)
 
     if @user.save
-      render(status: 200, json: Api::V1::UserSerializer.new(@user, root:false).to_json)
+      render(status: 200, json: Api::V1::UserSerializer.new(@user).to_json)
     else
-      render(status: 400, json: Api::V1::UserSerializer.new(@user, root:false).to_json)
+      render(status: 400, json: Api::V1::UserSerializer.new(@user).to_json)
+    end
+  end
+
+  def update
+    @user = current_user
+    if @user.update_attributes(profile_params)
+      render(status: 200, json: Api::V1::UserSerializer.new(@user).to_json)
+    else
+      render(status: 400, json: Api::V1::UserSerializer.new(@user).to_json)
     end
   end
 
@@ -25,6 +34,10 @@ class Api::V1::RegistrationsController < Api::V1::BaseController
 
   def sign_up_params
     params.require(:user).permit(:email, :password, :status)
+  end
+
+  def profile_params
+    params.require(:user).permit(:first_name, :surname, :address, :phone, :image_url, :state)
   end
 
 end
