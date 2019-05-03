@@ -1,5 +1,4 @@
 class Api::V1::RegistrationsController < Api::V1::BaseController
-  include Api::V1::ExceptionHandlers
   before_action :authenticate_with_token!, only: [:update, :destroy]
 
   respond_to :json

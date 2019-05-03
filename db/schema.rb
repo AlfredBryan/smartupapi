@@ -10,10 +10,101 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190503080034) do
+ActiveRecord::Schema.define(version: 20190503145858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "answer_options", force: :cascade do |t|
+    t.bigint "question_id"
+    t.integer "rank"
+    t.text "content"
+    t.boolean "correct", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_answer_options_on_question_id"
+  end
+
+  create_table "answers", force: :cascade do |t|
+    t.bigint "answer_option_id"
+    t.string "state"
+    t.bigint "user_id"
+    t.bigint "question_id"
+    t.text "content"
+    t.string "content_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["answer_option_id"], name: "index_answers_on_answer_option_id"
+    t.index ["question_id"], name: "index_answers_on_question_id"
+    t.index ["user_id"], name: "index_answers_on_user_id"
+  end
+
+  create_table "assessments", force: :cascade do |t|
+    t.bigint "course_id"
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_assessments_on_course_id"
+  end
+
+  create_table "courses", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.text "description"
+    t.bigint "institution_id"
+    t.boolean "active", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["institution_id"], name: "index_courses_on_institution_id"
+    t.index ["slug"], name: "index_courses_on_slug", unique: true
+  end
+
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "institutions", force: :cascade do |t|
+    t.string "name"
+    t.string "motto"
+    t.string "logo_url"
+    t.string "email"
+    t.string "phone"
+    t.string "slug"
+    t.integer "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_institutions_on_slug", unique: true
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.bigint "topic_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "assessments_id"
+    t.index ["assessments_id"], name: "index_questions_on_assessments_id"
+    t.index ["topic_id"], name: "index_questions_on_topic_id"
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string "name"
+    t.bigint "course_id"
+    t.integer "rank"
+    t.boolean "active", default: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_topics_on_course_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -48,4 +139,13 @@ ActiveRecord::Schema.define(version: 20190503080034) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "answer_options", "questions"
+  add_foreign_key "answers", "answer_options"
+  add_foreign_key "answers", "questions"
+  add_foreign_key "answers", "users"
+  add_foreign_key "assessments", "courses"
+  add_foreign_key "courses", "institutions"
+  add_foreign_key "questions", "assessments", column: "assessments_id"
+  add_foreign_key "questions", "topics"
+  add_foreign_key "topics", "courses"
 end

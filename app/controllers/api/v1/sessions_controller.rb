@@ -1,8 +1,6 @@
 class Api::V1::SessionsController < Api::V1::BaseController
-  include Api::V1::ExceptionHandlers
   before_action :authenticate_with_token!, except: [:create]
 
-  # before_action :set_serializer_namespace
   acts_as_token_authentication_handler_for User, fallback_to_devise: false
 
   respond_to :json

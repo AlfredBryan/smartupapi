@@ -45,6 +45,7 @@ gem 'rack-cors'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'timecop'
 gem 'kaminari'
+gem 'friendly_id', '~> 5.2.4'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
