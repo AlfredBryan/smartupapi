@@ -19,7 +19,11 @@ Rails.application.routes.draw do
           resources :questions
         end
         resources :answers
-        resources :ward_requests
+        resources :ward_requests do
+          member do
+            get :toggle
+          end
+        end
       end
     end
   end

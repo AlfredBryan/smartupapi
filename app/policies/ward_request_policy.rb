@@ -1,7 +1,13 @@
 class WardRequestPolicy < ApplicationPolicy
   class Scope < Struct.new(:user, :scope)
     def resolve
-      scope
+      if user.admin?
+        scope
+      elsif user.guardian?
+        scope.where(guardian_id: user.id)
+      else
+        scope.where(user_id: user.id)
+      end
     end
   end
 
@@ -9,12 +15,12 @@ class WardRequestPolicy < ApplicationPolicy
     true
   end
 
-  def show?
-    admin? || (record.user == user) || (record.guardian == user)
+  def toggle?
+    record.user == user
   end
 
-  def update?
-    record.user == user
+  def show?
+    admin? || toggle? || (record.guardian == user)
   end
 
   def destroy?

@@ -10,6 +10,20 @@ class Api::V1::WardRequestsController < Api::V1::Resources::BaseController
     end
   end
 
+  def create
+    @ward_request.guardian = current_user
+    if @user = User.with_email(ward_request_params[:email]).first
+      @ward_request.user = @user
+    end
+    super
+  end
+
+  def toggle
+    authorize(@ward_request)
+    @ward_request.update_column(:approved, !@ward_request.approved?)
+    render json: instance, serializer: serializer
+  end
+
   private
 
   def ward_request_params
