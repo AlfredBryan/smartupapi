@@ -15,7 +15,7 @@ class WardRequestPolicy < ApplicationPolicy
     true
   end
 
-  def toggle?
+  def approve?
     record.user == user
   end
 

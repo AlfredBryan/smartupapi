@@ -18,9 +18,9 @@ class Api::V1::WardRequestsController < Api::V1::Resources::BaseController
     super
   end
 
-  def toggle
+  def approve
     authorize(@ward_request)
-    @ward_request.update_column(:approved, !@ward_request.approved?)
+    @ward_request.update_column(:approved, true)
     render json: instance, serializer: serializer
   end
 
