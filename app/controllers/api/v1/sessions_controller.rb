@@ -8,7 +8,7 @@ class Api::V1::SessionsController < Api::V1::BaseController
   def create
     if user = find_resource
       sign_in(:user, user)
-      render json: Api::V1::UserSerializer.new(user, root:false).to_json, status: :created
+      render json: Api::V1::UserSerializer.new(user).to_json, status: :created
     else
       head :unauthorized
     end
