@@ -14,6 +14,10 @@ class Api::V1::SessionsController < Api::V1::BaseController
     end
   end
 
+  def show
+    head :ok
+  end
+
   def forgot_password
     resource = User.with_email(params[:email]).first
     Api::V1::CustomDeviseMailer.reset_password_instructions(  resource, token).deliver
