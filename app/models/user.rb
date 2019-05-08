@@ -11,9 +11,10 @@ class User < ApplicationRecord
   has_many :courses, class_name: 'User', foreign_key: :creator_id
   has_many :institutions, class_name: 'User', foreign_key: :owner_id
 
-  has_many :ward_requests, class_name: 'User', foreign_key: :guardian_id
+  has_many :ward_requests, foreign_key: :guardian_id
+  has_many :ward_responses, class_name: 'WardRequest'
   has_many :wards, -> { where(ward_requests: { approved: true }) }, through: :ward_requests, source: :user
-  has_many :guardians, -> { where(ward_requests: { approved: true }) }, through: :ward_requests, source: :guardian
+  has_many :guardians, -> { where(ward_requests: { approved: true }) }, through: :ward_responses, source: :guardian
 
 
   scope :with_email, ->(email) { where(email: email.downcase) }
