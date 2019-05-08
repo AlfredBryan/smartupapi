@@ -14,7 +14,7 @@ class Api::V1::RegistrationsController < Api::V1::BaseController
   end
 
   def family
-    render json: current_user.send(current_user.guardian? ? :wards : :guardians).map {|user| UserSerializer.new(user).as_json}
+    render json: current_user.send(current_user.guardian? ? :wards : :guardians).map {|user| Api::V1::UserSerializer.new(user).as_json}
   end
 
   def update
