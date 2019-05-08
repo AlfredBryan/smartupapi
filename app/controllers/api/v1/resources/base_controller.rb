@@ -28,6 +28,12 @@ class Api::V1::Resources::BaseController < Api::V1::BaseController
     end
   end
 
+  def destroy
+    authorize(instance)
+    instance.destroy
+    head :ok
+  end
+
   private
 
   def load_resource
