@@ -1,5 +1,6 @@
 class Api::V1::WardRequestsController < Api::V1::Resources::BaseController
-  before_action :find_ward_request, except: :index
+  before_action :find_ward_request, except: [:index, :create]
+  skip_before_action :load_resource, only: :create
 
   def index
     @ward_requests = policy_scope(WardRequest)
@@ -7,11 +8,17 @@ class Api::V1::WardRequestsController < Api::V1::Resources::BaseController
   end
 
   def create
-    params[:ward_request][:guardian_id] = current_user.id
+    @ward_request = WardRequest.new()
+    @ward_request.guardian = current_user
     if @user = User.with_email(params[:email]).first
-      params[:ward_request][:user_id] = @user.id
+      @ward_request.user = @user
     end
-    super
+    authorize(instance)
+    if instance.save && instance.valid?
+      render json: instance, serializer: serializer
+    else
+      render json: instance, serializer: serializer, status: :unprocessable_entity
+    end
   end
 
   def approve
@@ -27,7 +34,7 @@ class Api::V1::WardRequestsController < Api::V1::Resources::BaseController
   end
 
   def find_ward_request
-    @assessment = Course.friendly.find(params[:id])
+    @ward_request = WardRequest.find(params[:id])
   end
 
 end
