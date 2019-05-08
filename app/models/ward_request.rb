@@ -5,4 +5,6 @@ class WardRequest < ApplicationRecord
   validates :guardian, uniqueness: { scope: [:user_id, :approved], message: "Already has a pending ward request!" }
 
   attr_accessor :email
+
+  scope :pending, -> { where(approved: false) }
 end

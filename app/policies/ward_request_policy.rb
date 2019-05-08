@@ -4,9 +4,9 @@ class WardRequestPolicy < ApplicationPolicy
       if user.admin?
         scope
       elsif user.guardian?
-        scope.where(guardian_id: user.id)
+        scope.pending.where(guardian_id: user.id)
       else
-        scope.where(user_id: user.id)
+        scope.pending.where(user_id: user.id)
       end
     end
   end
