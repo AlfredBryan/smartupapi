@@ -7,9 +7,9 @@ class Api::V1::WardRequestsController < Api::V1::Resources::BaseController
   end
 
   def create
-    @ward_request.guardian = current_user
-    if @user = User.with_email(ward_request_params[:email]).first
-      @ward_request.user = @user
+    params[:ward_request][:guardian_id] = current_user.id
+    if @user = User.with_email(params[:email]).first
+      params[:ward_request][:user_id] = @user.id
     end
     super
   end
