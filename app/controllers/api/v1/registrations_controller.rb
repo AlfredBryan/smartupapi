@@ -1,5 +1,5 @@
 class Api::V1::RegistrationsController < Api::V1::BaseController
-  before_action :authenticate_with_token!, only: [:update, :destroy]
+  before_action :authenticate_with_token!, except: :create
 
   respond_to :json
 
@@ -11,6 +11,10 @@ class Api::V1::RegistrationsController < Api::V1::BaseController
     else
       render(status: 400, json: Api::V1::UserSerializer.new(@user).to_json)
     end
+  end
+
+  def family
+    render json: current_user.send(current_user.guardian? ? :wards : :guardians).map {|user| UserSerializer.new(user).as_json}
   end
 
   def update

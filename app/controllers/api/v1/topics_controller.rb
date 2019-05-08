@@ -4,11 +4,7 @@ class Api::V1::TopicsController < Api::V1::Resources::BaseController
   def index
     @course = Course.friendly.find(params[:course_slug])
     @topics = policy_scope((@course.topics rescue Topic.none))
-    respond_to do |format|
-      format.json {
-        render json: @topics.map {|topic| TopicSerializer.new(topic).as_json}
-      }
-    end
+    render json: @topics.map {|topic| TopicSerializer.new(topic).as_json}
   end
 
   private

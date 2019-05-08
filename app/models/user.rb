@@ -12,7 +12,8 @@ class User < ApplicationRecord
   has_many :institutions, class_name: 'User', foreign_key: :owner_id
 
   has_many :ward_requests, class_name: 'User', foreign_key: :guardian_id
-  has_many :wards, -> { where(ward_requests: { approved: true }) }, through: :ward_requests, source: :guardian
+  has_many :wards, -> { where(ward_requests: { approved: true }) }, through: :ward_requests, source: :user
+  has_many :guardians, -> { where(ward_requests: { approved: true }) }, through: :ward_requests, source: :guardian
 
 
   scope :with_email, ->(email) { where(email: email.downcase) }

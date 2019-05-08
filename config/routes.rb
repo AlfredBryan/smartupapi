@@ -10,7 +10,9 @@ Rails.application.routes.draw do
           put 'reset_password', to: 'sessions#reset_password'
         end
 
-        resource :registration, only: [:create, :update, :destroy]
+        resource :registration, only: [:create, :update, :destroy] do
+          get :family
+        end
         resources :institutions
         resources :courses, param: :slug do
           resources :topics

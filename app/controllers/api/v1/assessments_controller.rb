@@ -6,11 +6,7 @@ class Api::V1::AssessmentsController < Api::V1::Resources::BaseController
     @resource_scope = @course.assessments if @course
     @resource_scope ||= Assessment.all
     @assessments = policy_scope(@resource_scope)
-    respond_to do |format|
-      format.json {
-        render json: @assessments.map {|assessment| AssessmentSerializer.new(assessment).as_json}
-      }
-    end
+    render json: @assessments.map {|assessment| AssessmentSerializer.new(assessment).as_json}
   end
 
   private
