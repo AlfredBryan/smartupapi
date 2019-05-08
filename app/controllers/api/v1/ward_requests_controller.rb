@@ -3,7 +3,7 @@ class Api::V1::WardRequestsController < Api::V1::Resources::BaseController
 
   def index
     @ward_requests = policy_scope(WardRequest)
-    render json: @ward_requests.map {|ward_request| WardRequestSerializer.new(ward_request).as_json}
+    render json: @ward_requests.map {|ward_request| Api::V1::WardRequestSerializer.new(ward_request).as_json}
   end
 
   def create

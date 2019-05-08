@@ -7,36 +7,24 @@ class Api::V1::Resources::BaseController < Api::V1::BaseController
   def create
     authorize(instance)
     instance.attributes = self.send("#{controller_name.singularize}_params".to_sym)
-    respond_to do |format|
-      format.json {
-        if instance.save && instance.valid?
-          render json: instance, serializer: serializer
-        else
-          render json: instance, serializer: serializer, status: :unprocessable_entity
-        end
-      }
+    if instance.save && instance.valid?
+      render json: instance, serializer: serializer
+    else
+      render json: instance, serializer: serializer, status: :unprocessable_entity
     end
   end
 
   def show
     authorize(instance)
-    respond_to do |format|
-      format.json {
-        render json: instance, serializer: serializer
-      }
-    end
+    render json: instance, serializer: serializer
   end
 
   def update
     authorize(instance)
-    respond_to do |format|
-      format.json {
-        if instance.update_attributes(self.send("#{controller_name.singularize}_params".to_sym)) && instance.valid?
-          render json: instance, serializer: serializer
-        else
-          render json: instance, serializer: serializer, status: :unprocessable_entity
-        end
-      }
+    if instance.update_attributes(self.send("#{controller_name.singularize}_params".to_sym)) && instance.valid?
+      render json: instance, serializer: serializer
+    else
+      render json: instance, serializer: serializer, status: :unprocessable_entity
     end
   end
 
