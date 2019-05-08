@@ -12,7 +12,7 @@ class WardRequestPolicy < ApplicationPolicy
   end
 
   def create?
-    true
+    admin? || (user.guardian? && record.guardian == user)
   end
 
   def approve?
