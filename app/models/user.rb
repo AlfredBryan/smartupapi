@@ -6,6 +6,8 @@ class User < ApplicationRecord
          :rememberable, :validatable, :trackable
 
   STATUSES = %w(student guardian educator)
+  SEXES = %w(male female other)
+  ACADEMIC_LEVELS = (1..12).to_a
 
   has_many :answers
   has_many :courses, class_name: 'User', foreign_key: :creator_id
@@ -21,6 +23,8 @@ class User < ApplicationRecord
   scope :with_email_and_token, ->(email, token) { with_email(email).where(authentication_token: token) }
 
   validates :status, presence: true, inclusion: { in: STATUSES }
+  validates :sex, inclusion: { in: SEXES }
+  validates :level, :numericality => { greater_than: 0, less_than: ACADEMIC_LEVELS.last}
 
   after_save :setup_completed!
 
@@ -40,6 +44,10 @@ class User < ApplicationRecord
 
   def full_name
     "#{surname} #{first_name}"
+  end
+
+  def age
+    Date.current.year - date_of_birth.year
   end
 
   def complete?

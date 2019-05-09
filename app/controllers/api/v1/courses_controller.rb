@@ -6,7 +6,7 @@ class Api::V1::CoursesController < Api::V1::Resources::BaseController
     @resource_scope = @institution.courses if @institution
     @resource_scope ||= Course.all
     @courses = policy_scope(@resource_scope)
-    render json: @courses.map {|course| CourseSerializer.new(course).as_json}
+    render json: @courses.map {|course| Api::V1::CourseSerializer.new(course).as_json}
   end
 
   private

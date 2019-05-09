@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190503154118) do
+ActiveRecord::Schema.define(version: 20190509151754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,24 @@ ActiveRecord::Schema.define(version: 20190503154118) do
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "grading_scores", force: :cascade do |t|
+    t.bigint "grading_system_id"
+    t.string "name"
+    t.integer "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["grading_system_id"], name: "index_grading_scores_on_grading_system_id"
+  end
+
+  create_table "grading_systems", force: :cascade do |t|
+    t.bigint "course_id"
+    t.bigint "institution_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_grading_systems_on_course_id"
+    t.index ["institution_id"], name: "index_grading_systems_on_institution_id"
   end
 
   create_table "institutions", force: :cascade do |t|
@@ -135,6 +153,9 @@ ActiveRecord::Schema.define(version: 20190503154118) do
     t.string "image_url"
     t.string "state"
     t.datetime "completed_at"
+    t.string "sex"
+    t.date "date_of_birth"
+    t.integer "level", default: 1
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -157,6 +178,9 @@ ActiveRecord::Schema.define(version: 20190503154118) do
   add_foreign_key "assessments", "courses"
   add_foreign_key "courses", "institutions"
   add_foreign_key "courses", "users", column: "creator_id"
+  add_foreign_key "grading_scores", "grading_systems"
+  add_foreign_key "grading_systems", "courses"
+  add_foreign_key "grading_systems", "institutions"
   add_foreign_key "institutions", "users", column: "owner_id"
   add_foreign_key "questions", "assessments", column: "assessments_id"
   add_foreign_key "questions", "topics"

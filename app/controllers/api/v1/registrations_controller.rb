@@ -40,7 +40,7 @@ class Api::V1::RegistrationsController < Api::V1::BaseController
   end
 
   def profile_params
-    params.require(:user).permit(:first_name, :surname, :address, :phone, :image_url, :state)
+    params.require(:user).permit(:first_name, :surname, :address, :phone, :image_url, :state, :sex, :level, :date_of_birth)
   end
 
 end

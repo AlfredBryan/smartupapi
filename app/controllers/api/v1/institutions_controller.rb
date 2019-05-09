@@ -3,7 +3,7 @@ class Api::V1::InstitutionsController < Api::V1::Resources::BaseController
 
   def index
     @institutions = policy_scope(Institution)
-    render json: @institutions.map {|institution| InstitutionSerializer.new(institution).as_json}
+    render json: @institutions.map {|institution| Api::V1::InstitutionSerializer.new(institution).as_json}
   end
 
   private
