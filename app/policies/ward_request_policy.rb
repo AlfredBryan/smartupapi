@@ -20,7 +20,7 @@ class WardRequestPolicy < ApplicationPolicy
   end
 
   def show?
-    admin? || toggle? || (record.guardian == user)
+    admin? || approve? || (record.guardian == user)
   end
 
   def destroy?
