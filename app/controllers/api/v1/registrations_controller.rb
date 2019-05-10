@@ -6,7 +6,7 @@ class Api::V1::RegistrationsController < Api::V1::BaseController
   def create
     @user = User.new(sign_up_params)
 
-    if @user.save
+    if @user.save && @user.valid?
       render(status: 200, json: Api::V1::UserSerializer.new(@user).to_json)
     else
       render(status: 400, json: Api::V1::UserSerializer.new(@user).to_json)
@@ -19,7 +19,7 @@ class Api::V1::RegistrationsController < Api::V1::BaseController
 
   def update
     @user = current_user
-    if @user.update_attributes(profile_params)
+    if @user.update_attributes(profile_params) && @user.valid?
       render(status: 200, json: Api::V1::UserSerializer.new(@user).to_json)
     else
       render(status: 400, json: Api::V1::UserSerializer.new(@user).to_json)
