@@ -23,7 +23,7 @@ class User < ApplicationRecord
   scope :with_email_and_token, ->(email, token) { with_email(email).where(authentication_token: token) }
 
   validates :status, presence: true, inclusion: { in: STATUSES }
-  validates :sex, inclusion: { in: SEXES }
+  validates :sex, inclusion: { in: SEXES, allow_blank: true }
   validates :level, :numericality => { greater_than: 0, less_than: ACADEMIC_LEVELS.last}
 
   after_save :setup_completed!
