@@ -1,4 +1,4 @@
-class GradingSystemPolicy < ApplicationPolicy
+class GradingChartPolicy < ApplicationPolicy
   class Scope < Struct.new(:user, :scope)
     def resolve
       scope

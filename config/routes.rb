@@ -26,6 +26,8 @@ Rails.application.routes.draw do
             get :approve
           end
         end
+
+        resources :grading_charts
       end
     end
   end
