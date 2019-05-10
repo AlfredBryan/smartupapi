@@ -2,6 +2,8 @@ module Api::V1::ExceptionHandlers
   extend ActiveSupport::Concern
 
   included do
+    rescue_from ActiveRecord::ActiveRecordError, :with => :not_found
+    rescue_from StandardError, :with => :not_found
     rescue_from ActiveRecord::RecordNotFound, :with => :not_found
     rescue_from ActionController::ParameterMissing, :with => :not_found
     rescue_from Pundit::NotDefinedError, :with => :not_found
