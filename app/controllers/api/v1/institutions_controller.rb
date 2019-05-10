@@ -6,6 +6,11 @@ class Api::V1::InstitutionsController < Api::V1::Resources::BaseController
     render json: @institutions.map {|institution| Api::V1::InstitutionSerializer.new(institution).as_json}
   end
 
+  def create
+    @institution.owner = current_user
+    super
+  end
+
   private
 
   def institution_params

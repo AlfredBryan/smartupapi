@@ -9,6 +9,11 @@ class Api::V1::CoursesController < Api::V1::Resources::BaseController
     render json: @courses.map {|course| Api::V1::CourseSerializer.new(course).as_json}
   end
 
+  def create
+    @course.creator = current_user
+    super
+  end
+
   private
 
   def course_params
