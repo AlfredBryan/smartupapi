@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :grading_system do
+  factory :grading_chart do
     course { nil }
     institution { nil }
   end

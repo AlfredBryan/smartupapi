@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :grading_score do
-    grading_system { nil }
+    grading_chart { nil }
     name { "MyString" }
     score { 1 }
   end
