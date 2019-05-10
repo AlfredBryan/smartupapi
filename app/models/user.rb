@@ -48,6 +48,8 @@ class User < ApplicationRecord
 
   def age
     Date.current.year - date_of_birth.year
+  rescue
+    nil
   end
 
   def complete?
