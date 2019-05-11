@@ -4,7 +4,7 @@ class Api::V1::CoursesController < Api::V1::Resources::BaseController
   def index
     @institution = Institution.friendly.find(params[:institution_id]) if params[:institution_id]
     @courses = policy_scope((@institution.courses rescue nil) || Course.all)
-    render json: @courses.map {|course| Api::V1::CourseSerializer.new(course).as_json}
+    render json: @courses, each_serializer: Api::V1::CourseSerializer
   end
 
   def create
