@@ -10,6 +10,5 @@ class Course < ApplicationRecord
   friendly_id :name, use: :slugged
 
   validates :name, :description, presence: true
-  validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
 
 end
