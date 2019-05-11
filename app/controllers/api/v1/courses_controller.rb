@@ -1,5 +1,5 @@
 class Api::V1::CoursesController < Api::V1::Resources::BaseController
-  before_action :find_course, except: :index
+  before_action :find_course, except: [:index, :create]
 
   def index
     @institution = Institution.friendly.find(params[:institution_id]) if params[:institution_id]
