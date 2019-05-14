@@ -1,5 +1,5 @@
 class Api::V1::TopicsController < Api::V1::Resources::BaseController
-  before_action :find_topic, except: :index
+  before_action :find_topic, except: [:index, :create]
 
   def index
     @course = Course.friendly.find(params[:course_slug])

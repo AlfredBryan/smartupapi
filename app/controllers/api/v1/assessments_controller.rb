@@ -1,5 +1,5 @@
 class Api::V1::AssessmentsController < Api::V1::Resources::BaseController
-  before_action :find_assessment, except: :index
+  before_action :find_assessment, except: [:index, :create]
 
   def index
     @course = Course.friendly.find(params[:course_slug]) if params[:course_slug]
