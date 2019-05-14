@@ -6,7 +6,7 @@ class InstitutionPolicy < ApplicationPolicy
   end
 
   def create?
-    admin?
+    admin? || user.educator?
   end
 
   def show?
