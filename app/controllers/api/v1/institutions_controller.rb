@@ -2,7 +2,7 @@ class Api::V1::InstitutionsController < Api::V1::Resources::BaseController
   before_action :find_institution, except: :index
 
   def index
-    @institutions = policy_scope(Institution)
+    @institutions = policy_scope(Institution.all)
     render json: @institutions.map {|institution| Api::V1::InstitutionSerializer.new(institution).as_json}
   end
 

@@ -1,6 +1,7 @@
 class Api::V1::GradingChartsController < Api::V1::Resources::BaseController
+
   def index
-    @grading_charts = policy_scope(GradingChart)
+    @grading_charts = policy_scope(GradingChart.all)
     render json: @grading_charts.map {|chart| Api::V1::GradingChartSerializer.new(chart).as_json}
   end
 

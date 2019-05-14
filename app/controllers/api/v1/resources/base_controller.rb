@@ -2,7 +2,7 @@ class Api::V1::Resources::BaseController < Api::V1::BaseController
   after_action :verify_authorized, :except => :index
   after_action :verify_policy_scoped, :only => :index
   before_action :authenticate_with_token!
-  before_action :load_resource
+  before_action :load_resource, except: :index
 
   def create
     authorize(instance)

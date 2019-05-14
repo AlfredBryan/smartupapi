@@ -2,7 +2,7 @@ class Api::V1::WardRequestsController < Api::V1::Resources::BaseController
   before_action :find_ward_request, except: [:index, :create]
 
   def index
-    @ward_requests = policy_scope(WardRequest)
+    @ward_requests = policy_scope(WardRequest.all)
     render json: @ward_requests.map {|ward_request| Api::V1::WardRequestSerializer.new(ward_request).as_json}
   end
 

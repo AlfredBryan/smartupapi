@@ -1,6 +1,6 @@
 class Api::V1::QuestionsController < Api::V1::Resources::BaseController
   def index
-    @questions = policy_scope(Question)
+    @questions = policy_scope(Question.all)
     render json: @questions.map {|question| Api::V1::QuestionSerializer.new(question).as_json}
   end
 
