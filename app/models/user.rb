@@ -54,7 +54,7 @@ class User < ApplicationRecord
 
   def complete?
     complete = true
-    [:first_name, :surname, :address, :phone, :image_url, :state].each do |attr|
+    [:first_name, :surname, :address, :phone, :image_url, :state, :sex, :level, :date_of_birth].each do |attr|
       complete = complete && self.send(attr).present?
     end
     complete
