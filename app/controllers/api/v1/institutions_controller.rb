@@ -1,5 +1,6 @@
 class Api::V1::InstitutionsController < Api::V1::Resources::BaseController
   before_action :find_institution, except: [:index, :create]
+  skip_before_action :load_resource, except: :create
 
   def index
     @institutions = policy_scope(Institution.all)
