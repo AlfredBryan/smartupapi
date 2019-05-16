@@ -25,7 +25,7 @@ class Api::V1::CoursesController < Api::V1::Resources::BaseController
   end
 
   def find_course
-    @course = Course.friendly.find(params[:id])
+    @course = Course.friendly.find(params[:slug])
   end
 
 end
