@@ -9,7 +9,7 @@ class Api::V1::CoursesController < Api::V1::Resources::BaseController
   end
 
   def create
-    @course.institution = @institution if @institution
+    @course.institution = @institution
     @course.creator = current_user
     super
   end
