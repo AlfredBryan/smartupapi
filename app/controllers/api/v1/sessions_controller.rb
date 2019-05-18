@@ -15,7 +15,7 @@ class Api::V1::SessionsController < Api::V1::BaseController
   end
 
   def show
-    head :ok
+    render json: Api::V1::UserSerializer.new(current_user).to_json
   end
 
   def forgot_password
