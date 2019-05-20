@@ -31,7 +31,7 @@ class Api::V1::Resources::BaseController < Api::V1::BaseController
   def destroy
     authorize(instance)
     instance.destroy
-    head :ok
+    head :no_content
   end
 
   private
