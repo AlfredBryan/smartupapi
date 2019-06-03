@@ -17,10 +17,13 @@ Rails.application.routes.draw do
         resources :courses, param: :slug do
           resources :topics
         end
+
+        resources :questions
+
         resources :assessments do
-          resources :questions
+          resources :answers
         end
-        resources :answers
+
         resources :ward_requests do
           member do
             get :approve

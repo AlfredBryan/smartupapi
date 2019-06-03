@@ -16,7 +16,7 @@ class Api::V1::AssessmentsController < Api::V1::Resources::BaseController
   end
 
   def find_assessment
-    @assessment = Course.friendly.find(params[:id])
+    @assessment = Assessment.find(params[:id])
   end
 
 end
