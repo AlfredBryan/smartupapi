@@ -4,7 +4,7 @@ class AssessmentResult < ApplicationRecord
 
   STATUS = %w(started closed)
 
-  STATES.each do |state|
+  STATUS.each do |state|
     define_method "#{state}?" do
       self.status == state
     end
