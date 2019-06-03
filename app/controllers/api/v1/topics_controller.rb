@@ -16,7 +16,7 @@ class Api::V1::TopicsController < Api::V1::Resources::BaseController
   private
 
   def topic_params
-    params.require(:topic).permit(:id, :name, :description, :rank, :course_id, :active, :_destroy)
+    params.require(:topic).permit(:id, :name, :description, :rank, :course_id, :active, :lecture_type, :video_url, :_destroy)
   end
 
   def find_course
