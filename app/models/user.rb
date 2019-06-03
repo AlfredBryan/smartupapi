@@ -10,6 +10,7 @@ class User < ApplicationRecord
   ACADEMIC_LEVELS = (1..12).to_a
 
   has_many :answers
+  has_many :assessment_results
   has_many :courses, class_name: 'User', foreign_key: :creator_id
   has_many :institutions, class_name: 'User', foreign_key: :owner_id
 
