@@ -1,6 +1,5 @@
 class Question < ApplicationRecord
   belongs_to :topic
-  belongs_to :assessment
 
   has_many :answer_options, dependent: :destroy
   accepts_nested_attributes_for :answer_options, reject_if: :all_blank, allow_destroy: true

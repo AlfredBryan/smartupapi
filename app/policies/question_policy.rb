@@ -6,7 +6,7 @@ class QuestionPolicy < ApplicationPolicy
   end
 
   def create?
-    admin? || (record.assessment.course.creator == user) || ((record.assessment.course.institution.owner == user) rescue false)
+    admin? || user.educator?
   end
 
   def show?

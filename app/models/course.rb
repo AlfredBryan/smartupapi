@@ -4,7 +4,7 @@ class Course < ApplicationRecord
 
   has_many :topics, dependent: :destroy
   has_many :assessments, dependent: :destroy
-  has_many :questions, through: :assessments
+  has_many :questions, through: :topics
 
   extend FriendlyId
   friendly_id :name, use: :slugged
