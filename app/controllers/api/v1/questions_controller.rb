@@ -9,7 +9,7 @@ class Api::V1::QuestionsController < Api::V1::Resources::BaseController
   private
 
   def question_params
-    params.require(:question).permit(:id, :name, :description, :topic_id, :assessment_id, :_destroy,
+    params.require(:question).permit(:id, :name, :description, :topic_id, :_destroy,
                                            answer_options_attributes: [:id, :rank, :content, :question_id, :correct, :_destroy])
   end
 end
