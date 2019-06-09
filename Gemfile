@@ -28,6 +28,10 @@ gem 'sidekiq', '< 5' #breaking changes from 5.0 onwards
 gem 'sidekiq-failures' # can now see failures tab in sidekiq ui
 gem 'sidekiq-unique-jobs'
 gem 'whenever', require: false
+gem 'carrierwave'
+gem 'carrierwave-base64'
+gem 'mini_magick'
+gem 'fog-aws'
 
 # connect to cache
 gem 'readthis'

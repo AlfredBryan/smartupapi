@@ -9,6 +9,8 @@ class User < ApplicationRecord
   SEXES = %w(male female other)
   ACADEMIC_LEVELS = (1..12).to_a
 
+  mount_base64_uploader :image, ImageUploader
+
   has_many :answers
   has_many :assessment_results
   has_many :courses, class_name: 'User', foreign_key: :creator_id

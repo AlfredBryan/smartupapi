@@ -15,7 +15,7 @@ class Api::V1::InstitutionsController < Api::V1::Resources::BaseController
   private
 
   def institution_params
-    params.require(:institution).permit(:id, :name, :motto, :logo_url, :email, :phone, :_destroy)
+    params.require(:institution).permit(:id, :name, :motto, :logo, :email, :phone, :_destroy)
   end
 
   def find_institution
