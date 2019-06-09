@@ -13,5 +13,5 @@ CarrierWave.configure do |config|
     config.storage = :file
     config.enable_processing = Rails.env.development?
   end
-  config.s3_access_policy = :public_read
+  # config.s3_access_policy = :public_read
 end
