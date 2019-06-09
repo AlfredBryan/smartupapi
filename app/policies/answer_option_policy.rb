@@ -6,7 +6,7 @@ class AnswerOptionPolicy < ApplicationPolicy
   end
 
   def create?
-    admin? || (record.question.assessment.course.creator == user) || ((record.question.assessment.course.institution.owner == user) rescue false)
+    admin? || user.educator?
   end
 
   def show?
@@ -18,6 +18,6 @@ class AnswerOptionPolicy < ApplicationPolicy
   end
 
   def destroy?
-    create?
+    create? && Answer.where(answer_option_id: record.id).none?
   end
 end
