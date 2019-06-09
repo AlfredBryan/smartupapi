@@ -1,3 +1,5 @@
+require 'file_size_validator'
+
 class User < ApplicationRecord
 
   acts_as_token_authenticatable
@@ -28,6 +30,7 @@ class User < ApplicationRecord
   validates :status, presence: true, inclusion: { in: STATUSES }
   validates :sex, inclusion: { in: SEXES, allow_blank: true }
   validates :level, :numericality => { greater_than: 0, less_than: ACADEMIC_LEVELS.last}
+  validates :image, file_size: { maximum: 5.megabytes.to_i }
 
   after_save :setup_completed!
 
