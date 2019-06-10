@@ -13,4 +13,8 @@ class Institution < ApplicationRecord
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
   validates :logo, file_size: { maximum: 5.megabytes.to_i }
 
+  def logo_url
+    logo.url
+  end
+
 end

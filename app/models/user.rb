@@ -58,6 +58,10 @@ class User < ApplicationRecord
     nil
   end
 
+  def image_url
+    image.url
+  end
+
   def complete?
     complete = true
     [:first_name, :surname, :address, :phone, :image_url, :state, :sex, :level, :date_of_birth].each do |attr|
