@@ -21,6 +21,13 @@ class Answer < ApplicationRecord
     passed? || failed?
   end
 
+  def question_id
+    assessment_question.question_id
+  end
+
+  def assessment_id
+    assessment_question.assessment_id
+  end
 
   def submit!
     self.state = 'submitted' and save!
