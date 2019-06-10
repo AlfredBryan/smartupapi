@@ -5,6 +5,6 @@ class Api::V1::UserSerializer < Api::V1::ApplicationSerializer
               :sex, :level, :age, :date_of_birth, :completed_at
 
   def image_url
-    image.url
+    self.image.url
   end
 end
