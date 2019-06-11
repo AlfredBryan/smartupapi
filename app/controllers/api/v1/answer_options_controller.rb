@@ -19,7 +19,7 @@ class Api::V1::AnswerOptionsController < Api::V1::Resources::BaseController
   end
 
   def find_answer_option
-    @answer_option = (@question.answer_options.find_by_id(params[:id]) rescue nil)
+    @answer_option = @question.answer_options.find_by_id(params[:id])
   end
 
 end
