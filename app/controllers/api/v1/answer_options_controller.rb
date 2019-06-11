@@ -14,13 +14,6 @@ class Api::V1::AnswerOptionsController < Api::V1::Resources::BaseController
   end
 
   def find_question
-    puts "#######################"
-    puts "#######################"
-    puts params
-    puts params[:question_id]
-    puts params[:id]
-    puts "#######################"
-    puts "#######################"
     @question = Question.find(params[:question_id]) if params[:question_id]
     @answer_option = @question.answer_options.find_by_id(params[:id]) if @question
   end
