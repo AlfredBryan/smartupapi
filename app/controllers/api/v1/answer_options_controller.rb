@@ -1,7 +1,7 @@
 class Api::V1::AnswerOptionsController < Api::V1::Resources::BaseController
   before_action :find_answer_option, except: [:index, :create]
   before_action :find_question
-  skip_before_filter :load_resource, only: :destroy
+  skip_before_action :load_resource, only: :destroy
 
   def index
     @answer_options = policy_scope((@question.answer_options rescue []))
