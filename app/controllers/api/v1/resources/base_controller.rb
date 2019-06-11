@@ -29,6 +29,12 @@ class Api::V1::Resources::BaseController < Api::V1::BaseController
   end
 
   def destroy
+    puts "###################"
+    puts "###################"
+    puts controller_name.singularize
+    puts instance
+    puts "###################"
+    puts "###################"
     authorize(instance)
     instance.destroy
     head :no_content

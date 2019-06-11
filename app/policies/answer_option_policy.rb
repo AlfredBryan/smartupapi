@@ -18,6 +18,12 @@ class AnswerOptionPolicy < ApplicationPolicy
   end
 
   def destroy?
+    puts "#####################"
+    puts "#####################"
+    puts record
+    puts Answer.where(answer_option_id: record.id).none?
+    puts "#####################"
+    puts "#####################"
     create? && Answer.where(answer_option_id: record.id).none?
   end
 end
