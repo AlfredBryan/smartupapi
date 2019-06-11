@@ -1,5 +1,4 @@
 class Api::V1::AnswerOptionsController < Api::V1::Resources::BaseController
-  before_action :find_answer_option, except: [:index, :create]
   before_action :find_question
   skip_before_action :load_resource, only: :destroy
 
@@ -15,11 +14,14 @@ class Api::V1::AnswerOptionsController < Api::V1::Resources::BaseController
   end
 
   def find_question
+    puts "#######################"
+    puts "#######################"
+    puts params
+    puts params[:question_id]
+    puts params[:id]
+    puts "#######################"
+    puts "#######################"
     @question = Question.find(params[:question_id]) if params[:question_id]
+    @answer_option = @question.answer_options.find_by_id(params[:id]) if @question
   end
-
-  def find_answer_option
-    @answer_option = @question.answer_options.find_by_id(params[:id])
-  end
-
 end
