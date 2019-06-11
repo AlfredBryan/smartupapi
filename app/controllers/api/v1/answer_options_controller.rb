@@ -1,7 +1,6 @@
 class Api::V1::AnswerOptionsController < Api::V1::Resources::BaseController
   before_action :find_answer_option, except: [:index, :create]
   before_action :find_question
-  skip_before_action :load_resource, only: :destroy
 
   def index
     @answer_options = policy_scope((@question.answer_options rescue []))
@@ -19,7 +18,7 @@ class Api::V1::AnswerOptionsController < Api::V1::Resources::BaseController
   end
 
   def find_answer_option
-    @answer_option = (@question.answer_options.find(params[:id]) rescue nil)
+    @answer_option = (@question.answer_options.find_by_id(params[:id]) rescue nil)
   end
 
 end
