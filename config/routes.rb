@@ -28,6 +28,11 @@ Rails.application.routes.draw do
           resources :assessment_results, only: [:index, :show, :destroy]
         end
 
+        resources :study_groups
+        resources :attendances
+        resources :group_memberships, only: [:create, :destroy]
+        resources :attendance_users, only: [:create, :destroy]
+
         resources :ward_requests do
           member do
             get :approve

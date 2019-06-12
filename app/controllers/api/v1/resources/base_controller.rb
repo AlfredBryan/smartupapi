@@ -56,6 +56,10 @@ class Api::V1::Resources::BaseController < Api::V1::BaseController
     @instance ||= eval("@#{controller_name.singularize}")
   end
 
+  def instances
+    @instances ||= eval("@#{controller_name}")
+  end
+
   def serializer
     @serializer ||= "Api::V1::#{controller_name.singularize.classify}Serializer".constantize
   end

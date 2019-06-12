@@ -22,6 +22,8 @@ class User < ApplicationRecord
   has_many :ward_responses, class_name: 'WardRequest'
   has_many :wards, -> { where(ward_requests: { approved: true }) }, through: :ward_requests, source: :user
   has_many :guardians, -> { where(ward_requests: { approved: true }) }, through: :ward_responses, source: :guardian
+  has_many :group_memberships
+  has_many :study_groups, through: :group_memberships
 
 
   scope :with_email, ->(email) { where(email: email.downcase) }
