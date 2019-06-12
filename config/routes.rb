@@ -24,6 +24,8 @@ Rails.application.routes.draw do
 
         resources :assessments do
           resources :answers
+          resources :assessment_questions
+          resources :assessment_results, only: [:index, :show, :destroy]
         end
 
         resources :ward_requests do

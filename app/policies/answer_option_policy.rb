@@ -1,7 +1,11 @@
 class AnswerOptionPolicy < ApplicationPolicy
   class Scope < Struct.new(:user, :scope)
     def resolve
-      scope
+      if user.admin?
+        scope
+      else
+        scope.where(question_id: record.question_id)
+      end
     end
   end
 
@@ -18,12 +22,6 @@ class AnswerOptionPolicy < ApplicationPolicy
   end
 
   def destroy?
-    puts "#####################"
-    puts "#####################"
-    puts record
-    puts Answer.where(answer_option_id: record.id).none?
-    puts "#####################"
-    puts "#####################"
     create? && Answer.where(answer_option_id: record.id).none?
   end
 end
