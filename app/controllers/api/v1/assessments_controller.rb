@@ -12,7 +12,7 @@ class Api::V1::AssessmentsController < Api::V1::Resources::BaseController
   private
 
   def assessment_params
-    params.require(:assessment).permit(:id, :name, :description, :course_id, :_destroy, answer_questions_attributes: [:id, :question_id])
+    params.require(:assessment).permit(:id, :name, :description, :course_id, :_destroy)
   end
 
   def find_assessment
