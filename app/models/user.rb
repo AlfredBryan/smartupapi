@@ -31,7 +31,7 @@ class User < ApplicationRecord
 
   validates :status, presence: true, inclusion: { in: STATUSES }
   validates :sex, inclusion: { in: SEXES, allow_blank: true }
-  validates :level, :numericality => { greater_than: 0, less_than: ACADEMIC_LEVELS.last}
+  validates :level, :numericality => { greater_than: 0, less_than_or_equal_to: ACADEMIC_LEVELS.last }
   validates :image, file_size: { maximum: 5.megabytes.to_i }
 
   after_save :setup_completed!
