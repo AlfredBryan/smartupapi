@@ -7,7 +7,7 @@ class CreateGroupMemberships < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    create_table :attendance do |t|
+    create_table :attendances do |t|
       t.references :user, foreign_key: true
       t.references :study_group, foreign_key: true
       t.string :name

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_09_185453) do
+ActiveRecord::Schema.define(version: 2019_06_12_094328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,26 @@ ActiveRecord::Schema.define(version: 2019_06_09_185453) do
     t.index ["course_id"], name: "index_assessments_on_course_id"
   end
 
+  create_table "attendance_user", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "attendance_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attendance_id"], name: "index_attendance_user_on_attendance_id"
+    t.index ["user_id"], name: "index_attendance_user_on_user_id"
+  end
+
+  create_table "attendances", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "study_group_id"
+    t.string "name"
+    t.datetime "marked_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["study_group_id"], name: "index_attendances_on_study_group_id"
+    t.index ["user_id"], name: "index_attendances_on_user_id"
+  end
+
   create_table "courses", force: :cascade do |t|
     t.string "name"
     t.string "slug"
@@ -99,6 +119,15 @@ ActiveRecord::Schema.define(version: 2019_06_09_185453) do
     t.index ["grading_chart_id"], name: "index_grading_scores_on_grading_chart_id"
   end
 
+  create_table "group_memberships", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "study_group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["study_group_id"], name: "index_group_memberships_on_study_group_id"
+    t.index ["user_id"], name: "index_group_memberships_on_user_id"
+  end
+
   create_table "institutions", force: :cascade do |t|
     t.string "name"
     t.string "motto"
@@ -121,6 +150,13 @@ ActiveRecord::Schema.define(version: 2019_06_09_185453) do
     t.bigint "assessments_id"
     t.index ["assessments_id"], name: "index_questions_on_assessments_id"
     t.index ["topic_id"], name: "index_questions_on_topic_id"
+  end
+
+  create_table "study_groups", force: :cascade do |t|
+    t.string "name"
+    t.integer "level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "topics", force: :cascade do |t|
@@ -186,11 +222,17 @@ ActiveRecord::Schema.define(version: 2019_06_09_185453) do
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
   add_foreign_key "assessments", "courses"
+  add_foreign_key "attendance_user", "attendances"
+  add_foreign_key "attendance_user", "users"
+  add_foreign_key "attendances", "study_groups"
+  add_foreign_key "attendances", "users"
   add_foreign_key "courses", "institutions"
   add_foreign_key "courses", "users", column: "creator_id"
   add_foreign_key "grading_charts", "courses"
   add_foreign_key "grading_charts", "institutions"
   add_foreign_key "grading_scores", "grading_charts"
+  add_foreign_key "group_memberships", "study_groups"
+  add_foreign_key "group_memberships", "users"
   add_foreign_key "institutions", "users", column: "owner_id"
   add_foreign_key "questions", "assessments", column: "assessments_id"
   add_foreign_key "questions", "topics"
