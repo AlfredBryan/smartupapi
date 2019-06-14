@@ -6,7 +6,7 @@ class StudyGroupPolicy < ApplicationPolicy
   end
 
   def create?
-    admin? || user.educator?
+    admin? || ((record.institution.owner == user) rescue false)
   end
 
   def show?

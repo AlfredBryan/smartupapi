@@ -6,7 +6,7 @@ class GroupMembershipPolicy < ApplicationPolicy
   end
 
   def create?
-    admin? || user.educator?
+    (admin? || ((record.study_group.institution.owner == user) rescue false)) && !record.user.parent?
   end
 
   def destroy?

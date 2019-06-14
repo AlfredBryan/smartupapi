@@ -7,6 +7,6 @@ class Api::V1::StudyGroupsController < Api::V1::Resources::BaseController
   private
 
   def study_group_params
-    params.require(:study_group).permit(:id, :name, :level, :_destroy)
+    params.require(:study_group).permit(:id, :name, :level, :institution_id, :_destroy)
   end
 end

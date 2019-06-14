@@ -14,11 +14,11 @@ class AttendancePolicy < ApplicationPolicy
   end
 
   def create?
-    admin? || user.educator?
+    admin? || (((record.study_group.members.include?(user)) rescue false) && user.educator?)
   end
 
   def show?
-    create? || record.study_group.members.include?(user) || user.wards&record.study_group.members
+    create? || record.study_group.members.include?(user) || (user.wards&record.study_group.members).any?
   end
 
   def update?

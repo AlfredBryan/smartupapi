@@ -1,4 +1,5 @@
 class StudyGroup < ApplicationRecord
+  belongs_to :institution
   has_many :group_memberships
   has_many :members, through: :group_memberships, source: :user
 
