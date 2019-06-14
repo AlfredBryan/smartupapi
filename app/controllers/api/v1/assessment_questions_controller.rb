@@ -8,7 +8,7 @@ class Api::V1::AssessmentQuestionsController < Api::V1::Resources::BaseControlle
   end
 
   def create
-    @assessment_question = :AssessmentQuestion.new(assessment_question_params)
+    @assessment_question = AssessmentQuestion.new(assessment_question_params)
     authorize(@assessment_question)
     if @assessment_question.save && @assessment_question.valid?
       render json: @assessment_question, serializer: serializer
