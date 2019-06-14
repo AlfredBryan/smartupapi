@@ -1,12 +1,10 @@
 class AssessmentResultPolicy < ApplicationPolicy
   class Scope < Struct.new(:user, :scope)
     def resolve
-      if user.admin?
+      if user.admin? || user.educator?
         scope
-      elsif user.educator?
-        scope.where(assessment_id: record.assessment_id)
       else
-        scope.where(user_id: user_id)
+        scope.where(user_id: user.id)
       end
     end
   end
