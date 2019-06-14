@@ -26,6 +26,7 @@ class User < ApplicationRecord
   has_many :study_groups, through: :group_memberships
 
 
+  scope :admin, -> { where(admin: true) }
   scope :with_email, ->(email) { where(email: email.downcase) }
   scope :with_email_and_token, ->(email, token) { with_email(email).where(authentication_token: token) }
 
@@ -42,6 +43,10 @@ class User < ApplicationRecord
     end
   end
 
+  STATUSES.each do |status|
+    scope status.downcase, ->{ where(status: status.to_s) }
+  end
+
   def reset_authentication_token!
     update_column(:authentication_token, Devise.friendly_token)
   end
@@ -51,7 +56,11 @@ class User < ApplicationRecord
   end
 
   def full_name
-    "#{surname} #{first_name}"
+    [first_name, surname].compact.join(' ')
+  end
+
+  def display_name
+    [full_name, email].select(&:present?).join(', ')
   end
 
   def age

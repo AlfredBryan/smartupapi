@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   defaults format: :json do
     namespace :api do
       namespace :v1 do
+        resources :users, only: :index
         resource :session, only: [:create, :show, :destroy] do
           put 'forgot_password', to: 'sessions#forgot_password'
           put 'reset_password', to: 'sessions#reset_password'
