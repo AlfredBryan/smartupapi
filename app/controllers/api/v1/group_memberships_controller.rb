@@ -1,6 +1,6 @@
 class Api::V1::GroupMembershipsController < Api::V1::Resources::BaseController
   skip_before_action :load_resource, only: :create
-  skip_before_action :verify_authorized, only: :create
+  skip_after_action :verify_authorized, only: :create
   skip_after_action :verify_policy_scoped, only: :create
 
 
