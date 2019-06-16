@@ -5,7 +5,7 @@ class Question < ApplicationRecord
   # has_many :comments, dependent: :destroy
 
   has_many :answer_options, dependent: :destroy
-  # accepts_nested_attributes_for :answer_options, reject_if: :all_blank, allow_destroy: true
+  has_many :assessment_questions, dependent: :destroy
 
   validates :name, :description, presence: true
 
