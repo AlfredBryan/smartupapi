@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_14_114045) do
+ActiveRecord::Schema.define(version: 2019_06_18_112702) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,8 +157,8 @@ ActiveRecord::Schema.define(version: 2019_06_14_114045) do
     t.integer "level"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "institutions_id"
-    t.index ["institutions_id"], name: "index_study_groups_on_institutions_id"
+    t.bigint "institution_id"
+    t.index ["institution_id"], name: "index_study_groups_on_institution_id"
   end
 
   create_table "topics", force: :cascade do |t|
@@ -238,7 +238,7 @@ ActiveRecord::Schema.define(version: 2019_06_14_114045) do
   add_foreign_key "institutions", "users", column: "owner_id"
   add_foreign_key "questions", "assessments", column: "assessments_id"
   add_foreign_key "questions", "topics"
-  add_foreign_key "study_groups", "institutions", column: "institutions_id"
+  add_foreign_key "study_groups", "institutions"
   add_foreign_key "topics", "courses"
   add_foreign_key "ward_requests", "users"
   add_foreign_key "ward_requests", "users", column: "guardian_id"
