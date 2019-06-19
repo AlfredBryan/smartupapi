@@ -7,8 +7,8 @@ class Api::V1::GroupMembershipsController < Api::V1::Resources::BaseController
   def create
     @study_group = StudyGroup.find(group_membership_params[:study_group_id]) rescue nil
     (group_membership_params[:user_emails].split(',') rescue []).each do |email|
-      if user = User.find_by_email(email.to_s) && !user.guardian?
-        @study_group.group_memberships.create!(user: user)
+      if user = User.find_by_email(email.to_s.squish)
+        @study_group.group_memberships.create!(user: user) unless user.guardian?
       end
     end if @study_group
     render json: @study_group.members.map {|user| Api::V1::UserSerializer.new(user).as_json}
