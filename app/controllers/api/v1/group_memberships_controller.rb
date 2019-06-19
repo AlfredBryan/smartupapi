@@ -7,7 +7,7 @@ class Api::V1::GroupMembershipsController < Api::V1::Resources::BaseController
   def create
     @study_group = StudyGroup.find(group_membership_params[:study_group_id]) rescue nil
     (group_membership_params[:user_emails].split(',') rescue []).each do |email|
-      if user = User.find_by_email(email.to_s) && !user.parent?
+      if user = User.find_by_email(email.to_s) && !user.guardian?
         @study_group.group_memberships.create!(user: user)
       end
     end if @study_group
