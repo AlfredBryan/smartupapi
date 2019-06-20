@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_18_112702) do
+ActiveRecord::Schema.define(version: 2019_06_20_133025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,15 @@ ActiveRecord::Schema.define(version: 2019_06_18_112702) do
     t.datetime "updated_at", null: false
     t.index ["attendance_id"], name: "index_attendance_user_on_attendance_id"
     t.index ["user_id"], name: "index_attendance_user_on_user_id"
+  end
+
+  create_table "attendance_users", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "attendance_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attendance_id"], name: "index_attendance_users_on_attendance_id"
+    t.index ["user_id"], name: "index_attendance_users_on_user_id"
   end
 
   create_table "attendances", force: :cascade do |t|
@@ -226,6 +235,8 @@ ActiveRecord::Schema.define(version: 2019_06_18_112702) do
   add_foreign_key "assessments", "courses"
   add_foreign_key "attendance_user", "attendances"
   add_foreign_key "attendance_user", "users"
+  add_foreign_key "attendance_users", "attendances"
+  add_foreign_key "attendance_users", "users"
   add_foreign_key "attendances", "study_groups"
   add_foreign_key "attendances", "users"
   add_foreign_key "courses", "institutions"
