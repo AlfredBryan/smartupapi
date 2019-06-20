@@ -3,7 +3,7 @@ class AttendancePolicy < ApplicationPolicy
     def resolve
       if user.admin?
         scope
-      elsif user.parent?
+      elsif user.guardian?
         scope.where(study_group_id: user.wards.collect(&:study_group_ids).flatten)
       elsif user.educator?
         scope.where(user_id: user.id)

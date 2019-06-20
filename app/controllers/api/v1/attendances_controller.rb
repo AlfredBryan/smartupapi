@@ -1,7 +1,9 @@
 class Api::V1::AttendancesController < Api::V1::Resources::BaseController
 
   def index
-    @attendances = policy_scope(Attendance.all)
+    @resource_scope = (StudyGroup.find(params[:group_id]).attendances rescue nil)
+    @resource_scope ||= Attendance.all
+    @attendances = policy_scope(@resource_scope)
     render json: @attendances.map {|attendance| Api::V1::AttendanceSerializer.new(attendance).as_json}
   end
 
