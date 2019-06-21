@@ -10,7 +10,7 @@ class Api::V1::AttendancesController < Api::V1::Resources::BaseController
   private
 
   def attendance_params
-    params.require(:attendance).permit(:id, :name, :marked_on, :study_group_id, :_destroy)
+    params.require(:attendance).permit(:id, :name, :marked_on, :study_group_id, :user_id, :_destroy)
   end
 
 end
