@@ -3,6 +3,8 @@ class StudyGroup < ApplicationRecord
   has_many :group_memberships
   has_many :members, through: :group_memberships, source: :user
 
+  has_many :attendances
+
   ACADEMIC_LEVELS = (1..12).to_a
 
   validates :name, :level, presence: true
