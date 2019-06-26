@@ -12,7 +12,6 @@ class Api::V1::AssessmentsController < Api::V1::Resources::BaseController
   def answer
     @answer = current_user.answers.where(question_id: answer_params[:question_id], assessment_id: @assessment.id).first_or_create
     @answer.update_attributes(answer_params)
-    @answer.submit!
     render json: Api::V1::AnswerSerializer.new(@answer).as_json
   end
 

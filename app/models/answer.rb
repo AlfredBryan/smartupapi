@@ -10,7 +10,7 @@ class Answer < ApplicationRecord
   scope :marked, -> { where(state: %w[passed failed]) }
   scope :cancelled, -> { where(state: 'cancelled') }
 
-  after_save :update_score! if :marked?
+  after_save :submit! unless :not_ready? || :marked?
 
   STATES.each do |state|
     define_method "#{state}?" do
@@ -24,6 +24,10 @@ class Answer < ApplicationRecord
   scope :choice, -> { joins(:question).where(questions: { question_type: "choice" }) }
 
   validates :state, presence: true, inclusion: { in: STATES }
+
+  def not_ready?
+    (choice? && answer_option_id.nil?) || (theory? && content.blank?)
+  end
 
   def marked?
     passed? || failed?
