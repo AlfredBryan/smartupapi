@@ -1,5 +1,7 @@
 class Api::V1::AssessmentsController < Api::V1::Resources::BaseController
   before_action :find_assessment, except: [:index, :create]
+  skip_after_action :verify_authorized, only: [:answer, :finish]
+  skip_after_action :verify_policy_scoped, only: [:answer, :finish]
 
   def index
     @course = Course.friendly.find(params[:course_slug]) if params[:course_slug]
@@ -11,6 +13,11 @@ class Api::V1::AssessmentsController < Api::V1::Resources::BaseController
 
   def answer
     @answer = current_user.answers.where(question_id: answer_params[:question_id], assessment_id: @assessment.id).first_or_create
+    puts "#######################"
+    puts "#######################"
+    puts @answer.errors.full_messages
+    puts "#######################"
+    puts "#######################"
     @answer.update_attributes(answer_params)
     render json: Api::V1::AnswerSerializer.new(@answer).as_json
   end
