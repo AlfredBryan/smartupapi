@@ -12,12 +12,7 @@ class Api::V1::AssessmentsController < Api::V1::Resources::BaseController
   end
 
   def answer
-    @answer = current_user.answers.where(question_id: answer_params[:question_id], assessment_id: @assessment.id).first_or_create
-    puts "#######################"
-    puts "#######################"
-    puts @answer.errors.full_messages
-    puts "#######################"
-    puts "#######################"
+    @answer = current_user.answers.where(question_id: answer_params[:question_id], assessment_id: @assessment.id).first_or_create(state: "pending")
     @answer.update_attributes(answer_params)
     render json: Api::V1::AnswerSerializer.new(@answer).as_json
   end
