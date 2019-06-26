@@ -18,7 +18,7 @@ class AssessmentResultPolicy < ApplicationPolicy
   end
 
   def update?
-    create? && !record.closed?
+    create? && !record.completed?
   end
 
   def destroy?

@@ -27,6 +27,11 @@ Rails.application.routes.draw do
           resources :answers
           resources :assessment_questions
           resources :assessment_results, only: [:index, :show, :destroy]
+
+          member do
+            get :answer
+            get :finish
+          end
         end
 
         resources :study_groups

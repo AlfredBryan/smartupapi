@@ -1,6 +1,7 @@
 class Answer < ApplicationRecord
   belongs_to :user
-  belongs_to :assessment_question
+  belongs_to :assessment
+  belongs_to :question
   belongs_to :answer_option, optional: true
 
   STATES = %w[pending submitted passed failed cancelled]
@@ -17,16 +18,15 @@ class Answer < ApplicationRecord
     end
   end
 
+  delegate :theory?, :choice?, :max_score, to: :question
+
+  scope :theory, -> { joins(:question).where(questions: { question_type: "theory" }) }
+  scope :choice, -> { joins(:question).where(questions: { question_type: "choice" }) }
+
+  validates :state, presence: true, inclusion: { in: STATES }
+
   def marked?
     passed? || failed?
-  end
-
-  def question_id
-    assessment_question.question_id
-  end
-
-  def assessment_id
-    assessment_question.assessment_id
   end
 
   def submit!
@@ -45,8 +45,8 @@ class Answer < ApplicationRecord
     self.state = 'cancelled' and save!
   end
 
-  def update_score!
-    result = self.user.assessment_results.where(assessment_id: assessment_question.assessment_id).first_or_create
-    result.update_score!
+  def mark!
+    return unless answer.choice?
+    answer.answer_option.correct? ? pass! : fail!
   end
 end

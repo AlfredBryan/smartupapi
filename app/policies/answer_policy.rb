@@ -6,8 +6,7 @@ class AnswerPolicy < ApplicationPolicy
   end
 
   def create?
-    true
-    # record.question.assessment.course.institution.nil? || record.question.assessment.course.institution
+    admin? || user.student?
   end
 
   def show?

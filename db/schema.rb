@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_20_133025) do
+ActiveRecord::Schema.define(version: 2019_06_26_162046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,10 @@ ActiveRecord::Schema.define(version: 2019_06_20_133025) do
     t.string "content_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "score", precision: 5, scale: 2, default: "0.0"
+    t.bigint "assessment_id"
     t.index ["answer_option_id"], name: "index_answers_on_answer_option_id"
+    t.index ["assessment_id"], name: "index_answers_on_assessment_id"
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
@@ -45,6 +48,17 @@ ActiveRecord::Schema.define(version: 2019_06_20_133025) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["assessment_id", "question_id"], name: "index_assessment_questions_on_assessment_id_and_question_id"
+  end
+
+  create_table "assessment_results", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "assessment_id"
+    t.decimal "score", precision: 5, scale: 2, default: "0.0"
+    t.string "status", default: "started"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assessment_id"], name: "index_assessment_results_on_assessment_id"
+    t.index ["user_id"], name: "index_assessment_results_on_user_id"
   end
 
   create_table "assessments", force: :cascade do |t|
@@ -157,6 +171,8 @@ ActiveRecord::Schema.define(version: 2019_06_20_133025) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "assessments_id"
+    t.decimal "max_score", precision: 5, scale: 2, default: "0.0"
+    t.string "question_type", default: "choice"
     t.index ["assessments_id"], name: "index_questions_on_assessments_id"
     t.index ["topic_id"], name: "index_questions_on_topic_id"
   end
@@ -232,6 +248,8 @@ ActiveRecord::Schema.define(version: 2019_06_20_133025) do
   add_foreign_key "answers", "answer_options"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
+  add_foreign_key "assessment_results", "assessments"
+  add_foreign_key "assessment_results", "users"
   add_foreign_key "assessments", "courses"
   add_foreign_key "attendance_user", "attendances"
   add_foreign_key "attendance_user", "users"
