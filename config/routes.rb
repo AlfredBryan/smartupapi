@@ -29,8 +29,8 @@ Rails.application.routes.draw do
           resources :assessment_results, only: [:index, :show, :destroy]
 
           member do
-            get :answer
-            get :finish
+            post :answer
+            post :finish
           end
         end
 
