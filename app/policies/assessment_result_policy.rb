@@ -3,6 +3,8 @@ class AssessmentResultPolicy < ApplicationPolicy
     def resolve
       if user.admin? || user.educator?
         scope
+      elsif user.guardian?
+        scope.where(user_id: user.ward_ids)
       else
         scope.where(user_id: user.id)
       end
