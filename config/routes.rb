@@ -34,6 +34,8 @@ Rails.application.routes.draw do
           end
         end
 
+        resources :assessment_results, only: [:index, :show, :destroy]
+
         resources :study_groups
         resources :attendances
         resources :group_memberships, only: [:create, :destroy]
