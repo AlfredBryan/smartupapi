@@ -1,9 +1,11 @@
 class Api::V1::AssessmentResultsController < Api::V1::Resources::BaseController
   before_action :find_assessment
-  skip_before_action :load_resource, only: :destroy
+  skip_before_action :load_resource, only: [:index, :destroy]
 
   def index
-    @assessment_results = policy_scope((@assessment.assessment_results rescue []))
+    @resource_scope = @assessment.assessment_results if @assessment
+    @resource_scope ||= AssessmentResult.all
+    @assessment_results = policy_scope(@resource_scope)
     render json: @assessment_results.map {|assessment_result| Api::V1::AssessmentResultSerializer.new(assessment_result).as_json}
   end
 
