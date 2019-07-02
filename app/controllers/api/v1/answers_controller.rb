@@ -8,12 +8,17 @@ class Api::V1::AnswersController < Api::V1::Resources::BaseController
     render json: @answers.map {|answer| Api::V1::AnswerSerializer.new(answer).as_json}
   end
 
+  def score
+    authorize(@answer)
+    @answer.update_column(:score, answer_params[:score])
+    render json: @answer, serializer: serializer
+  end
 
 
   private
 
   def answer_params
-    params.require(:answer).permit(:id, :state, :content, :content_url, :user_id, :answer_option_id, :question_id, :_destroy)
+    params.require(:answer).permit(:id, :state, :content, :content_url, :score, :user_id, :answer_option_id, :question_id, :_destroy)
   end
 
   def find_question
