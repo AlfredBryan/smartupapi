@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::Resources::BaseController
-  skip_before_action :load_resource
+  skip_before_action :load_resource, only: :index
 
   def index
     @resource_scope = (User.send(params[:user_type]) rescue User.none) if params[:user_type]
