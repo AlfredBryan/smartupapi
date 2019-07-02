@@ -1,7 +1,11 @@
 class AssessmentPolicy < ApplicationPolicy
   class Scope < Struct.new(:user, :scope)
     def resolve
-      scope
+      if user.student?
+        scope.where.not(id: user.assessment_results.pluck(:assessment_id).flatten)
+      else
+        scope
+      end
     end
   end
 
