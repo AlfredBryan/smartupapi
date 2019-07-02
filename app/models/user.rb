@@ -84,4 +84,16 @@ class User < ApplicationRecord
   def setup_completed!
     update_column(:completed_at, DateTime.current) if completed_at.nil? && complete?
   end
+
+  def total_score
+    assessment_results.collect(&:total_score).sum
+  rescue
+    0
+  end
+
+  def average_score
+    ((total_score + 100)/(assessment_results.count + 1.0)).to_i
+  rescue
+    100
+  end
 end
