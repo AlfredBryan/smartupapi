@@ -1,6 +1,7 @@
 class Api::V1::AnswersController < Api::V1::Resources::BaseController
   before_action :find_answer, except: [:index, :create, :marking]
   skip_before_action :load_resource, only: [:index, :marking]
+  skip_after_action :verify_authorized, only: :marking
 
   def index
     @assessment = Assessment.find(params[:assessment_id]) if params[:assessment_id]
