@@ -1,5 +1,5 @@
 class Api::V1::AnswersController < Api::V1::Resources::BaseController
-  before_action :find_answer, except: [:index, :create]
+  before_action :find_answer, except: [:index, :create, :marking]
   skip_before_action :load_resource, only: [:index, :marking]
 
   def index
