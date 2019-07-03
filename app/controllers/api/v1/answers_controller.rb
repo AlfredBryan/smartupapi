@@ -1,10 +1,17 @@
 class Api::V1::AnswersController < Api::V1::Resources::BaseController
   before_action :find_answer, except: [:index, :create]
-  skip_before_action :load_resource, only: :index
+  skip_before_action :load_resource, only: [:index, :marking]
 
   def index
     @assessment = Assessment.find(params[:assessment_id]) if params[:assessment_id]
     @answers = policy_scope((@assessment.answers.where(user_id: params[:user_id]) rescue []))
+    render json: @answers.map {|answer| Api::V1::AnswerSerializer.new(answer).as_json}
+  end
+
+  def marking
+    @resource_scope = (Answer.send(params[:question_type]) rescue Answer.none) if params[:question_type]
+    @resource_scope ||= Answer.all
+    @answers = policy_scope(@resource_scope)
     render json: @answers.map {|answer| Api::V1::AnswerSerializer.new(answer).as_json}
   end
 

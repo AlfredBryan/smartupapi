@@ -9,6 +9,10 @@ class AnswerPolicy < ApplicationPolicy
     admin? || user.student?
   end
 
+  def marking?
+    admin? || user.educator?
+  end
+
   def score?
     admin? || user.educator?
   end
