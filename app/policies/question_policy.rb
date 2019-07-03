@@ -13,6 +13,10 @@ class QuestionPolicy < ApplicationPolicy
     true
   end
 
+  def set_score?
+    show?
+  end
+
   def update?
     create?
   end

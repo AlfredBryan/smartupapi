@@ -4,11 +4,12 @@ class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :answer_option, optional: true
 
-  STATES = %w[pending submitted passed failed cancelled]
+  STATES = %w[pending submitted cancelled]
+  PASS_MARK = AssessmentResult::GRADES.key("E").min
 
-  scope :passed, -> { where(state: "passed") }
-  scope :marked, -> { where(state: %w[passed failed]) }
-  scope :unmarked, -> { where(state: %w[pending submitted cancelled]) }
+  scope :passed, -> { where(state: AssessmentResult::GRADES.values[1..-1]) }
+  scope :marked, -> { where(state: AssessmentResult::GRADES.values) }
+  scope :unmarked, -> { where(state: STATES) }
   scope :cancelled, -> { where(state: 'cancelled') }
 
   after_save :submit! unless :not_ready? || :marked?
@@ -19,15 +20,23 @@ class Answer < ApplicationRecord
     end
   end
 
-  delegate :theory?, :choice?, :max_score, to: :question
+  delegate :theory?, :choice?, :question_type, to: :question
 
   scope :theory, -> { joins(:question).where(questions: { question_type: "theory" }) }
   scope :choice, -> { joins(:question).where(questions: { question_type: "choice" }) }
 
-  validates :state, presence: true, inclusion: { in: STATES }
+  validates :state, presence: true, inclusion: { in: STATES + AssessmentResult::GRADES.values }
 
   def not_ready?
     (choice? && answer_option_id.nil?) || (theory? && content.blank?)
+  end
+
+  def passed?
+    AssessmentResult::GRADES.values[1..-1].include?(state)
+  end
+
+  def failed?
+    AssessmentResult::GRADES.values[0] == state
   end
 
   def marked?
@@ -38,20 +47,38 @@ class Answer < ApplicationRecord
     self.state = 'submitted' and save!
   end
 
-  def pass!
-    self.state = 'passed' and save!
-  end
-
-  def fail!
-    self.state = 'failed' and save!
+  def grade!
+    grade = AssessmentResult::GRADES.select { |grade| grade == score }.values.first
+    self.state = grade and save!
   end
 
   def cancel!
     self.state = 'cancelled' and save!
   end
 
-  def mark!
-    return unless answer.choice?
+  def pass!
+    self.state = "A" and save!
+  end
+
+  def fail!
+    self.state = "F" and save!
+  end
+
+  def theory_mark!
+    grade!
+  end
+
+  def choice_mark!
     answer.answer_option.correct? ? pass! : fail!
+  end
+
+  def mark!
+    send("#{question_type}_mark!".to_sym)
+  end
+
+  def max_score
+    question.maximum_scores.find_by(assessment_id: assessment_id).score
+  rescue
+    0.0
   end
 end

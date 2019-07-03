@@ -20,6 +20,9 @@ Rails.application.routes.draw do
         end
 
         resources :questions do
+          member do
+            post :set_score
+          end
           resources :answer_options
         end
 

@@ -17,6 +17,7 @@ class Api::V1::AnswersController < Api::V1::Resources::BaseController
   def score
     authorize(@answer)
     @answer.update_column(:score, answer_params[:score])
+    @answer.mark!
     render json: @answer, serializer: serializer
   end
 

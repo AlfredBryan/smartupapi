@@ -10,6 +10,15 @@ class AssessmentResult < ApplicationRecord
     end
   end
 
+  GRADES = {
+      (0..49).to_a => "F",
+      (50..59).to_a => "E",
+      (60..69).to_a => "D",
+      (70..79).to_a => "C",
+      (80..89).to_a => "B",
+      (90..100).to_a => "A"
+  }
+
   validates :status, presence: true, inclusion: { in: STATUSES }
 
   def answers

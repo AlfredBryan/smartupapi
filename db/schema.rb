@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_26_162046) do
+ActiveRecord::Schema.define(version: 2019_07_03_142706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -164,6 +164,16 @@ ActiveRecord::Schema.define(version: 2019_06_26_162046) do
     t.index ["slug"], name: "index_institutions_on_slug", unique: true
   end
 
+  create_table "maximum_scores", force: :cascade do |t|
+    t.bigint "question_id"
+    t.bigint "assessment_id"
+    t.decimal "score", precision: 5, scale: 2, default: "0.0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assessment_id"], name: "index_maximum_scores_on_assessment_id"
+    t.index ["question_id"], name: "index_maximum_scores_on_question_id"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -171,7 +181,6 @@ ActiveRecord::Schema.define(version: 2019_06_26_162046) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "assessments_id"
-    t.decimal "max_score", precision: 5, scale: 2, default: "0.0"
     t.string "question_type", default: "choice"
     t.index ["assessments_id"], name: "index_questions_on_assessments_id"
     t.index ["topic_id"], name: "index_questions_on_topic_id"
@@ -265,6 +274,8 @@ ActiveRecord::Schema.define(version: 2019_06_26_162046) do
   add_foreign_key "group_memberships", "study_groups"
   add_foreign_key "group_memberships", "users"
   add_foreign_key "institutions", "users", column: "owner_id"
+  add_foreign_key "maximum_scores", "assessments"
+  add_foreign_key "maximum_scores", "questions"
   add_foreign_key "questions", "assessments", column: "assessments_id"
   add_foreign_key "questions", "topics"
   add_foreign_key "study_groups", "institutions"

@@ -2,6 +2,7 @@ class Question < ApplicationRecord
   belongs_to :topic
 
   has_many :answers, dependent: :destroy
+  has_many :maximum_scores
   # has_many :comments, dependent: :destroy
 
   QUESTION_TYPES = %w(choice theory)
@@ -28,5 +29,11 @@ class Question < ApplicationRecord
 
   def theory_question?
     errors.add(:question_type, "Remove all answer options to make this a theory question!") if answer_options.any?
+  end
+
+  def max_score(assessment_id)
+    maximum_scores.find_by(assessment_id: assessment_id).score
+  rescue
+    0.0
   end
 end
