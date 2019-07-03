@@ -8,6 +8,7 @@ class Answer < ApplicationRecord
 
   scope :passed, -> { where(state: "passed") }
   scope :marked, -> { where(state: %w[passed failed]) }
+  scope :unmarked, -> { where(state: %w[pending submitted cancelled]) }
   scope :cancelled, -> { where(state: 'cancelled') }
 
   after_save :submit! unless :not_ready? || :marked?

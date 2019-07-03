@@ -9,9 +9,7 @@ class Api::V1::AnswersController < Api::V1::Resources::BaseController
   end
 
   def marking
-    @resource_scope = (Answer.send(params[:question_type]) rescue Answer.none) if params[:question_type]
-    @resource_scope ||= Answer.all
-    @answers = policy_scope(@resource_scope)
+    @answers = policy_scope(Answer.theory.unmarked)
     render json: @answers.map {|answer| Api::V1::AnswerSerializer.new(answer).as_json}
   end
 

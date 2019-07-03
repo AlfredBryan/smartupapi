@@ -35,8 +35,10 @@ Rails.application.routes.draw do
         end
 
         resources :answers do
-          member do
+          collection do
             get :marking
+          end
+          member do
             post :score
           end
         end
