@@ -1,7 +1,15 @@
 class AnswerPolicy < ApplicationPolicy
   class Scope < Struct.new(:user, :scope)
     def resolve
-      scope
+      if user.admin?
+        scope
+      elsif user.educator?
+        scope.where(user_id: user.group_memberships.pluck(:user_id).flatten)
+      elsif user.guardian?
+        scope.where(user_id: user.ward_ids)
+      else
+        scope.where(user_id: user.id)
+      end
     end
   end
 
