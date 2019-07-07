@@ -45,6 +45,10 @@ class AssessmentResult < ApplicationRecord
     choice_score + theory_score
   end
 
+  def grade
+    AssessmentResult::GRADES.select { |grade| grade == total_score }.values.first
+  end
+
   def completed?
     assessment.questions.count == answers.marked.count
   end

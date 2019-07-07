@@ -26,6 +26,7 @@ class Answer < ApplicationRecord
   scope :choice, -> { joins(:question).where(questions: { question_type: "choice" }) }
 
   validates :state, presence: true, inclusion: { in: STATES + AssessmentResult::GRADES.values }
+  validate :valid_score?
 
   def not_ready?
     (choice? && answer_option_id.nil?) || (theory? && content.blank?)
@@ -80,5 +81,11 @@ class Answer < ApplicationRecord
     question.maximum_scores.find_by(assessment_id: assessment_id).score
   rescue
     0.0
+  end
+
+  private
+
+  def valid_score?
+    errors.add(:score, "Maximum score for the question is #{max_score}") if score > max_score
   end
 end
