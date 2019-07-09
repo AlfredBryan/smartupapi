@@ -1,5 +1,5 @@
 class Question < ApplicationRecord
-  belongs_to :topic
+  belongs_to :topic, optional: true
 
   has_many :answers, dependent: :destroy
   has_many :maximum_scores
