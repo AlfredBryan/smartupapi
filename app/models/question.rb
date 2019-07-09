@@ -18,7 +18,6 @@ class Question < ApplicationRecord
   scope :theory, -> { where(question_type: "theory") }
   scope :choice, -> { where(question_type: "choice") }
 
-
   def theory?
     (question_type == "theory") && answer_options.none?
   end
@@ -35,5 +34,23 @@ class Question < ApplicationRecord
     maximum_scores.find_by(assessment_id: assessment_id).score
   rescue
     0.0
+  end
+
+  def self.from_csv(file)
+    csv_text = File.read("db/imports/#{file}")
+    csv = CSV.parse(csv_text, headers: true, quote_char:'"', col_sep:",")
+    csv.each_with_index do |entry, idx|
+      break if idx > 100
+      entry = entry.to_h
+      name = "Economics Question #{idx + 1}"
+      desc = entry['QUESTIONS']
+      question_type = "choice"
+      options = []
+      bets = ["a", "b", "c", "d", "e"]
+      correct = entry["CORRECT ANSWER"]
+      bets.each { |bet| options << entry["OPTION #{bet.upcase}"] }
+      question = Question.create(name: name, description: desc, question_type: question_type)
+      options.each { |opt| question.answer_options.create!(content: opt, correct: (options[bets.index(correct.downcase)] == opt)) } if question.persisted?
+    end
   end
 end
