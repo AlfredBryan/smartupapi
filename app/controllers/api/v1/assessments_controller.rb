@@ -1,7 +1,7 @@
 class Api::V1::AssessmentsController < Api::V1::Resources::BaseController
   before_action :find_assessment, except: [:index, :create]
-  skip_after_action :verify_authorized, only: [:answer, :finish]
-  skip_after_action :verify_policy_scoped, only: [:answer, :finish]
+  skip_after_action :verify_authorized, only: [:answer, :complete_assessment]
+  skip_after_action :verify_policy_scoped, only: [:answer, :complete_assessment]
 
   def index
     @course = Course.friendly.find(params[:course_slug]) if params[:course_slug]
