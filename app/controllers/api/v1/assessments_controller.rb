@@ -17,7 +17,7 @@ class Api::V1::AssessmentsController < Api::V1::Resources::BaseController
     render json: Api::V1::AnswerSerializer.new(@answer).as_json
   end
 
-  def finish
+  def complete_assessment
     @result = current_user.assessment_results.where(assessment_id: @assessment.id).first_or_create
     puts "########################"
     puts "########################"

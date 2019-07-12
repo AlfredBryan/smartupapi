@@ -33,7 +33,7 @@ Rails.application.routes.draw do
 
           member do
             post :answer
-            post :finish
+            get :complete_assessment
           end
         end
 
