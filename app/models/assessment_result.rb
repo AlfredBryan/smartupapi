@@ -34,7 +34,7 @@ class AssessmentResult < ApplicationRecord
   end
 
   def theory_pct
-    (100 - answers.theory.collect(&:max_score).sum).abs
+    answers.theory.collect(&:max_score).sum
   end
 
   def theory_score
