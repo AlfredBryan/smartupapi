@@ -52,8 +52,8 @@ class Answer < ApplicationRecord
     self.state = 'submitted' and save!
   end
 
-  def grade!
-    grade = AssessmentResult::GRADES.select { |scores, grade| scores.include?(score.to_i) }.values.first
+  def theory_grade!
+    grade = AssessmentResult::GRADES.select { |scores, grade| scores.include?(theory_score_pct) }.values.first
     self.state = grade and save!
   end
 
@@ -69,8 +69,12 @@ class Answer < ApplicationRecord
     self.state = "F" and save!
   end
 
+  def theory_score_pct
+    ((score / max_score).to_f*100).round
+  end
+
   def theory_mark!
-    grade!
+    theory_grade!
     assessment_result.complete!
   end
 
