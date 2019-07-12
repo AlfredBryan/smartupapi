@@ -29,7 +29,7 @@ class Answer < ApplicationRecord
   validate :valid_score?
 
   def assessment_result
-    user.assessment_results.find_by(assessment_id: assessment_id).first_or_create
+    user.assessment_results.where(assessment_id: assessment_id).first_or_create
   end
 
   def not_ready?
