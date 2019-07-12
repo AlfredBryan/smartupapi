@@ -25,8 +25,12 @@ class AssessmentResult < ApplicationRecord
     user.answers.where(question_id: assessment.question_ids)
   end
 
+  def questions
+    assessment.questions
+  end
+
   def choice_score
-    ((choice_pct.to_f/assessment.questions.choice.count)*answers.choice.passed.count).round
+    ((choice_pct.to_f/questions.choice.count)*answers.choice.passed.count).round
   end
 
   def choice_pct
@@ -56,9 +60,7 @@ class AssessmentResult < ApplicationRecord
   def mark!
     answers.each(&:mark!)
     update_score!
-    if answers.marked == answers.count
-      complete!
-    end
+    complete!
   end
 
   def complete!
@@ -66,6 +68,6 @@ class AssessmentResult < ApplicationRecord
   end
 
   def update_score!
-    update_column(:score, total_score)
+    update_column(:score, total_score) if (answers.marked == questions.count)
   end
 end
