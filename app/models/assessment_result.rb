@@ -64,10 +64,10 @@ class AssessmentResult < ApplicationRecord
   end
 
   def complete!
-    update_column(:status, 'completed')
+    update_column(:status, 'completed') if (answers.marked == questions.count)
   end
 
   def update_score!
-    update_column(:score, total_score) if (answers.marked == questions.count)
+    update_column(:score, total_score)
   end
 end
