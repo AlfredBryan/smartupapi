@@ -70,7 +70,7 @@ class Answer < ApplicationRecord
   end
 
   def choice_mark!
-    answer.answer_option.correct? ? pass! : fail!
+    answer_option.correct? ? pass! : fail!
   end
 
   def mark!
