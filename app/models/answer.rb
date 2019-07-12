@@ -49,7 +49,7 @@ class Answer < ApplicationRecord
   end
 
   def grade!
-    grade = AssessmentResult::GRADES.select { |grade| grade == score }.values.first
+    grade = AssessmentResult::GRADES.select { |scores, grade| scores.include?(score.to_i) }.values.first
     self.state = grade and save!
   end
 

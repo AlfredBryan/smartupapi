@@ -50,7 +50,7 @@ class AssessmentResult < ApplicationRecord
   end
 
   def grade
-    AssessmentResult::GRADES.select { |grade| grade == total_score.to_i }.values.first
+    AssessmentResult::GRADES.select { |scores, grade| scores.include?(total_score.to_i) }.values.first
   end
 
   def completed?
