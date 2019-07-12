@@ -70,6 +70,7 @@ class Answer < ApplicationRecord
   end
 
   def theory_score_pct
+    return nil unless theory?
     ((score / max_score).to_f*100).round
   end
 
