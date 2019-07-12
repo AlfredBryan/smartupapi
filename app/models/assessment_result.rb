@@ -50,11 +50,11 @@ class AssessmentResult < ApplicationRecord
   end
 
   def grade
-    AssessmentResult::GRADES.select { |grade| grade == total_score }.values.first
+    AssessmentResult::GRADES.select { |grade| grade == total_score.to_i }.values.first
   end
 
   def completed?
-    assessment.questions.count == answers.marked.count
+    questions.count == answers.marked.count
   end
 
   def mark!
@@ -64,7 +64,7 @@ class AssessmentResult < ApplicationRecord
   end
 
   def complete!
-    update_column(:status, 'completed') if (answers.marked == questions.count)
+    update_column(:status, 'completed') if completed?
   end
 
   def update_score!
