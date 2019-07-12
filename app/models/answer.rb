@@ -28,6 +28,10 @@ class Answer < ApplicationRecord
   validates :state, presence: true, inclusion: { in: STATES + AssessmentResult::GRADES.values }
   validate :valid_score?
 
+  def assessment_result
+    user.assessment_results.find_by(assessment_id: assessment.id)
+  end
+
   def not_ready?
     (choice? && answer_option_id.nil?) || (theory? && content.blank?)
   end
@@ -67,6 +71,7 @@ class Answer < ApplicationRecord
 
   def theory_mark!
     grade!
+    assessment_result.complete!
   end
 
   def choice_mark!
