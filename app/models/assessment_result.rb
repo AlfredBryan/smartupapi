@@ -22,7 +22,7 @@ class AssessmentResult < ApplicationRecord
   validates :status, presence: true, inclusion: { in: STATUSES }
 
   def answers
-    user.answers.where(question_id: assessment.question_ids).uniq
+    user.answers.where(question_id: assessment.question_ids, assessment_id: assessment_id).uniq
   end
 
   def questions
