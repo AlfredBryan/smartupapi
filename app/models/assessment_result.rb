@@ -22,11 +22,11 @@ class AssessmentResult < ApplicationRecord
   validates :status, presence: true, inclusion: { in: STATUSES }
 
   def answers
-    user.answers.where(question_id: assessment.question_ids, assessment_id: assessment_id).uniq
+    user.answers.where(question_id: assessment.question_ids, assessment_id: assessment_id)
   end
 
   def questions
-    assessment.questions.uniq
+    assessment.questions
   end
 
   def choice_score
