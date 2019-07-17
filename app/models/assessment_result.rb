@@ -31,6 +31,8 @@ class AssessmentResult < ApplicationRecord
 
   def choice_score
     ((choice_pct.to_f/questions.choice.count)*answers.choice.passed.count).round
+  rescue
+    0
   end
 
   def choice_pct
