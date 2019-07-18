@@ -18,4 +18,15 @@ class Topic < ApplicationRecord
   def questions_with_answers
     questions.order(:rank).includes(:answers)
   end
+
+  def self.import(file, course=nil)
+    CSV.foreach(file.path, headers: true) do |row|
+      topic_hash = {}
+      topic_hash[:course_id] = course.id if course
+      row.to_hash.each_pair do |k,v|
+        topic_hash.merge!({k.to_s.downcase.to_sym => v}) if Topic.new.attributes.keys.include?(k.downcase.to_s)
+      end
+      Topic.create!(topic_hash)
+    end
+  end
 end

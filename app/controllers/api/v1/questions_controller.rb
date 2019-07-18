@@ -1,9 +1,16 @@
 class Api::V1::QuestionsController < Api::V1::Resources::BaseController
+  skip_before_action :load_resource, only: :import_data
 
   def index
     @course = Course.friendly.find(params[:course_slug]) if params[:course_slug]
     @questions = policy_scope((@course.questions rescue nil) || Question.all)
     render json: @questions.map {|question| Api::V1::QuestionSerializer.new(question).as_json}
+  end
+
+  def import_data
+    @topic = (Topic.find(params[:topic_id]) rescue nil)
+    Question.import(params[:csv_file].tempfile, @topic)
+    head :ok
   end
 
   def set_score

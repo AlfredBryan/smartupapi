@@ -1,7 +1,7 @@
 class Api::V1::TopicsController < Api::V1::Resources::BaseController
   before_action :find_course
   before_action :find_topic, except: [:index, :create]
-  skip_before_action :load_resource, only: :create
+  skip_before_action :load_resource, only: [:create, :import_data]
 
   def index
     @topics = policy_scope((@course.topics rescue Topic.none))
@@ -11,6 +11,11 @@ class Api::V1::TopicsController < Api::V1::Resources::BaseController
   def create
     @topic = @course.topics.new(topic_params)
     super
+  end
+
+  def import_data
+    Topic.import(params[:csv_file].tempfile, @course)
+    head :ok
   end
 
   private

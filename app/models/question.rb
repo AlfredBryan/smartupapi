@@ -53,4 +53,21 @@ class Question < ApplicationRecord
       options.each { |opt| question.answer_options.create!(content: opt, correct: (options[bets.index(correct.downcase)] == opt)) } if question.persisted?
     end
   end
+
+  def self.import(file, topic_id=nil)
+    CSV.foreach(file.path, headers: true) do |row|
+      options = []
+      bets = ["a", "b", "c", "d", "e"]
+      correct = nil
+      question_hash = {}
+      question_hash[:topic_id] = topic_id
+      row.to_hash.each_pair do |k,v|
+        correct = v if k.to_s == "CORRECT ANSWER"
+        options << v if k.to_s.downcase.include?("option")
+        question_hash.merge!({k.to_s.downcase.to_sym => v}) if Question.new.attributes.keys.include?(k.downcase.to_s)
+      end
+      question = Question.create!(question_hash)
+      options.each { |opt| question.answer_options.create!(content: opt, correct: (options[bets.index(correct.to_s.downcase)] == opt)) } if question.persisted? && question.choice?
+    end
+  end
 end

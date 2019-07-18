@@ -16,10 +16,20 @@ Rails.application.routes.draw do
         end
         resources :institutions
         resources :courses, param: :slug do
-          resources :topics
+          collection do
+            post :import_data
+          end
+          resources :topics do
+            collection do
+              post :import_data
+            end
+          end
         end
 
         resources :questions do
+          collection do
+            post :import_data
+          end
           member do
             post :set_score
           end

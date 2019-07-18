@@ -1,6 +1,6 @@
 class Api::V1::CoursesController < Api::V1::Resources::BaseController
-  before_action :find_course, except: [:index, :create]
-  before_action :find_institution, only: [:index, :create]
+  before_action :find_course, except: [:index, :create, :import_data]
+  before_action :find_institution, only: [:index, :create, :import_data]
   skip_before_action :load_resource, except: :create
 
   def index
@@ -12,6 +12,11 @@ class Api::V1::CoursesController < Api::V1::Resources::BaseController
     @course.institution = @institution
     @course.creator = current_user
     super
+  end
+
+  def import_data
+    Course.import(params[:csv_file].tempfile, current_user.id, @institution)
+    head :ok
   end
 
   private
