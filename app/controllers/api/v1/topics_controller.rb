@@ -1,6 +1,6 @@
 class Api::V1::TopicsController < Api::V1::Resources::BaseController
   before_action :find_course
-  before_action :find_topic, except: [:index, :create]
+  before_action :find_topic, except: [:index, :create, :import_data]
   skip_before_action :load_resource, only: [:create, :import_data]
   skip_after_action :verify_authorized, only: :import_data
   skip_after_action :verify_policy_scoped, only: :import_data
