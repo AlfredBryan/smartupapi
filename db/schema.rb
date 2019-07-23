@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_03_142706) do
+ActiveRecord::Schema.define(version: 2019_07_23_171821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -203,7 +203,7 @@ ActiveRecord::Schema.define(version: 2019_07_03_142706) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "lecture_type"
+    t.string "lecture_type", default: "text"
     t.string "video_url"
     t.index ["course_id"], name: "index_topics_on_course_id"
   end
