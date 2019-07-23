@@ -20,11 +20,12 @@ class Course < ApplicationRecord
     end
     puts "#########################"
     puts "#########################"
+    puts decoded_data
     puts current_file
     puts current_file.path
     puts "#########################"
     puts "#########################"
-    CSV.foreach(current_file.path, headers: true) do |row|
+    CSV.foreach(current_file, headers: true) do |row|
       course_hash = {}
       course_hash[:creator_id] = creator_id
       course_hash[:institution_id] = institution.id if institution
