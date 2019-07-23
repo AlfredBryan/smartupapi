@@ -20,7 +20,6 @@ class Topic < ApplicationRecord
   end
 
   def self.import(file, course=nil)
-    file = Base64.decode64(file).tempfile
     CSV.foreach(file.path, headers: true) do |row|
       topic_hash = {}
       topic_hash[:course_id] = course.id if course

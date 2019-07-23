@@ -1,6 +1,8 @@
 class Api::V1::CoursesController < Api::V1::Resources::BaseController
   before_action :find_course, except: [:index, :create, :import_data]
   before_action :find_institution, only: [:index, :create, :import_data]
+  skip_after_action :verify_authorized, only: :import_data
+  skip_after_action :verify_policy_scoped, only: :import_data
   skip_before_action :load_resource, except: :create
 
   def index

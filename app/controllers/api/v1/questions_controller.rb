@@ -1,5 +1,7 @@
 class Api::V1::QuestionsController < Api::V1::Resources::BaseController
   skip_before_action :load_resource, only: :import_data
+  skip_after_action :verify_authorized, only: :import_data
+  skip_after_action :verify_policy_scoped, only: :import_data
 
   def index
     @course = Course.friendly.find(params[:course_slug]) if params[:course_slug]

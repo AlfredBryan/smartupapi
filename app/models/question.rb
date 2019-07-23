@@ -55,7 +55,6 @@ class Question < ApplicationRecord
   end
 
   def self.import(file, topic_id=nil)
-    file = Base64.decode64(file).tempfile
     CSV.foreach(file.path, headers: true) do |row|
       options = []
       bets = ["a", "b", "c", "d", "e"]
