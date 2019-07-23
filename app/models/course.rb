@@ -18,16 +18,16 @@ class Course < ApplicationRecord
     current_file = File.open("/tmp/#{filename}-#{SecureRandom.hex[0..9]}", 'wb') do |f|
       f.write(decoded_data)
     end
-    puts "#########################"
-    puts "#########################"
-    puts decoded_data
-    puts current_file
-    puts "#########################"
-    puts "#########################"
-    CSV.foreach(decoded_data, headers: true) do |row|
+
+    CSV.parse(decoded_data, headers: true) do |row|
       course_hash = {}
       course_hash[:creator_id] = creator_id
       course_hash[:institution_id] = institution.id if institution
+      puts "#########################"
+      puts "#########################"
+      puts row.to_hash
+      puts "#########################"
+      puts "#########################"
       row.to_hash.each_pair do |k,v|
         course_hash.merge!({k.to_s.downcase.to_sym => v}) if Course.new.attributes.keys.include?(k.downcase.to_s)
       end
