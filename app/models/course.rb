@@ -14,18 +14,17 @@ class Course < ApplicationRecord
 
   def self.import(file, creator_id, institution=nil)
     filename = file["name"]
-    decoded_data = Base64.decode64(file["base64"].gsub("\\r", "\r").gsub("\\n", "\n"))
-    current_file = File.open("/tmp/#{filename}", 'wb') do |f|
+    decoded_data = Base64.decode64(file["base64"])
+    current_file = File.open("/tmp/#{filename}-#{SecureRandom.hex[0..9]}", 'wb') do |f|
       f.write(decoded_data)
     end
     puts "#########################"
     puts "#########################"
-    puts file["base64"]
     puts decoded_data
     puts current_file
     puts "#########################"
     puts "#########################"
-    CSV.foreach(current_file.path, headers: true) do |row|
+    CSV.foreach(decoded_data, headers: true) do |row|
       course_hash = {}
       course_hash[:creator_id] = creator_id
       course_hash[:institution_id] = institution.id if institution
