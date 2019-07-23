@@ -15,7 +15,7 @@ class Api::V1::CoursesController < Api::V1::Resources::BaseController
   end
 
   def import_data
-    Course.import(params[:csv_file], current_user.id, @institution)
+    Course.import(params[:csv_file].tempfile, current_user.id, @institution)
     head :ok
   end
 
