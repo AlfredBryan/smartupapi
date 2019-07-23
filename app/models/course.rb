@@ -15,7 +15,7 @@ class Course < ApplicationRecord
   def self.import(file, creator_id, institution=nil)
     filename = file["name"]
     decoded_data = Base64.decode64(file["base64"])
-    current_file = File.open("/tmp/courses/#{filename}", 'wb') do |f|
+    current_file = File.open("#{Rails.root}/public/courses/#{filename}", 'wb') do |f|
       f.write(decoded_data)
     end
     puts "#########################"
@@ -33,6 +33,7 @@ class Course < ApplicationRecord
       end
       Course.create!(course_hash)
     end
+    File.delete(current_file.path) if File.exist?(current_file.path)
   end
 
 end
