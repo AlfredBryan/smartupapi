@@ -18,7 +18,12 @@ class Course < ApplicationRecord
     puts file
     puts "#########################"
     puts "#########################"
-    CSV.foreach(file.path, headers: true) do |row|
+    filename = file["name"]
+    decoded_data = Base64.decode64(file["base64"])
+    current_file = File.open("#{Rails.root}/tmp/courses/#{filename}", 'wb') do |f|
+      f.write(decoded_data)
+    end
+    CSV.foreach(current_file.path, headers: true) do |row|
       course_hash = {}
       course_hash[:creator_id] = creator_id
       course_hash[:institution_id] = institution.id if institution
