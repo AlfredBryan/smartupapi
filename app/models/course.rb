@@ -15,7 +15,7 @@ class Course < ApplicationRecord
   def self.import(file, creator_id, institution=nil)
     filename = file["name"]
     decoded_data = Base64.decode64(file["base64"])
-    current_file = File.open("#{Rails.root}/public/courses/#{filename}", 'wb') do |f|
+    current_file = File.open("#{Rails.root}/public/courses/#{filename}", 'w') do |f|
       f.write(decoded_data)
     end
     puts "#########################"
