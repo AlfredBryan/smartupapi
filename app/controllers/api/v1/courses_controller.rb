@@ -17,7 +17,7 @@ class Api::V1::CoursesController < Api::V1::Resources::BaseController
   end
 
   def import_data
-    Bulk::CourseUpload.new(params[:csv_file].tempfile, current_user, @institution).import!
+    Course.import(params[:csv_file].tempfile, current_user, @institution)
     head :ok
   end
 
