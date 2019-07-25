@@ -17,7 +17,11 @@ class Api::V1::CoursesController < Api::V1::Resources::BaseController
   end
 
   def import_data
-    Course.import(params[:csv_file].tempfile, current_user, @institution)
+    puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+    puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+    puts Course.import(params[:csv_file].tempfile, current_user, @institution)
+    puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+    puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$"
     head :ok
   end
 

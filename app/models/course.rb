@@ -15,7 +15,7 @@ class Course < ApplicationRecord
   def self.import(file, creator, institution=nil)
     CSV.parse(file.path, headers: true) do |row|
       course_hash = {}
-      course_hash[:creator_id] = creator.id
+      course_hash[:creator_id] = creator.id if creator
       course_hash[:institution_id] = institution.id if institution
       row.to_hash.each_pair do |k,v|
         course_hash.merge!({k.to_s.downcase.to_sym => v}) if Course.new.attributes.keys.include?(k.downcase.to_s)
@@ -23,9 +23,9 @@ class Course < ApplicationRecord
       puts "####################"
       puts "####################"
       puts course_hash
+      puts Course.create!(course_hash)
       puts "####################"
       puts "####################"
-      Course.create!(course_hash)
     end
   end
 
