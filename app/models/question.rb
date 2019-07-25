@@ -62,7 +62,7 @@ class Question < ApplicationRecord
       question_hash = {}
       question_hash[:topic_id] = topic_id
       row.to_hash.each_pair do |k,v|
-        correct = v if k.to_s == "CORRECT ANSWER"
+        correct = v if k.to_s.downcase == "correct"
         options << v if k.to_s.downcase.include?("option")
         question_hash.merge!({k.to_s.downcase.to_sym => v}) if Question.new.attributes.keys.include?(k.downcase.to_s)
       end
