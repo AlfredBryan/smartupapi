@@ -13,9 +13,19 @@ class Bulk::CourseUpload
       course_hash = {}
       course_hash[:creator_id] = creator.id if creator
       course_hash[:institution_id] = institution.id if institution
+      puts "$$$$$$$$$$$$$$$$$$"
+      puts "$$$$$$$$$$$$$$$$$$"
+      puts row.to_hash
+      puts "$$$$$$$$$$$$$$$$$$"
+      puts "$$$$$$$$$$$$$$$$$$"
       row.to_hash.each_pair do |k,v|
         course_hash.merge!({k.to_s.downcase.to_sym => v}) if Course.new.attributes.keys.include?(k.downcase.to_s)
       end
+      puts "#########################"
+      puts "#########################"
+      puts course_hash
+      puts "#########################"
+      puts "#########################"
       Course.create!(course_hash)
     end
   end
