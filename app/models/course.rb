@@ -12,7 +12,7 @@ class Course < ApplicationRecord
   validates :name, :description, presence: true
 
 
-  def self.import(file, creator, institution=nil)
+  def self.read_csv_data!(file, creator, institution=nil)
     CSV.parse(file.path, headers: true) do |row|
       course_hash = {}
       course_hash[:creator_id] = creator.id if creator
@@ -23,9 +23,9 @@ class Course < ApplicationRecord
       puts "####################"
       puts "####################"
       puts course_hash
-      puts Course.create!(course_hash)
       puts "####################"
       puts "####################"
+      Course.create!(course_hash)
     end
   end
 
