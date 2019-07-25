@@ -12,7 +12,7 @@ class Course < ApplicationRecord
   validates :name, :description, presence: true
 
 
-  def self.read_csv_data!(file, creator, institution=nil)
+  def self.import(file, creator, institution=nil)
     CSV.parse(file.path, headers: true) do |row|
       course_hash = {}
       course_hash[:creator_id] = creator.id if creator
@@ -20,11 +20,6 @@ class Course < ApplicationRecord
       row.to_hash.each_pair do |k,v|
         course_hash.merge!({k.to_s.downcase.to_sym => v}) if Course.new.attributes.keys.include?(k.downcase.to_s)
       end
-      puts "####################"
-      puts "####################"
-      puts course_hash
-      puts "####################"
-      puts "####################"
       Course.create!(course_hash)
     end
   end
