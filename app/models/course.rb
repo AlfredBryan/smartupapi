@@ -20,6 +20,11 @@ class Course < ApplicationRecord
       row.to_hash.each_pair do |k,v|
         course_hash.merge!({k.to_s.downcase.to_sym => v}) if Course.new.attributes.keys.include?(k.downcase.to_s)
       end
+      puts "####################"
+      puts "####################"
+      puts course_hash
+      puts "####################"
+      puts "####################"
       Course.create!(course_hash)
     end
   end
