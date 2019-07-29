@@ -5,6 +5,7 @@ class Api::V1::AssessmentResultsController < Api::V1::Resources::BaseController
   def index
     @resource_scope = @assessment.assessment_results if @assessment
     @resource_scope ||= AssessmentResult.all
+    @resource_scope = @resource_scope.where(user_id: params[:user_id]) if params[:user_id]
     @assessment_results = policy_scope(@resource_scope)
     render json: @assessment_results.map {|assessment_result| Api::V1::AssessmentResultSerializer.new(assessment_result).as_json}
   end
