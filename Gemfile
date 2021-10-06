@@ -24,7 +24,7 @@ gem 'pundit'
 # gem 'bcrypt', '~> 3.1.7'
 # for background processing
 gem 'sinatra', require: false
-gem 'sidekiq', '< 5' #breaking changes from 5.0 onwards
+gem 'sidekiq', '< 6' #breaking changes from 5.0 onwards
 gem 'sidekiq-failures' # can now see failures tab in sidekiq ui
 gem 'sidekiq-unique-jobs'
 gem 'whenever', require: false
