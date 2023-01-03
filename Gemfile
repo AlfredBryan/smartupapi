@@ -42,7 +42,7 @@ gem 'mini_magick'
 gem 'image_processing'
 gem 'fog', '~>1.3'
 
-gem 'httparty', '0.14.0'
+gem 'httparty', '0.21.0'
 gem 'pdfkit'
 gem 'rubyzip'
 gem 'rack-cors'
